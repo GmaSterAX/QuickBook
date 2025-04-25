@@ -6,49 +6,7 @@
     <title>QuickBook</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .navbar {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: top 0.3s ease-in-out; /* Added for smooth transition */
-            top: 0; /* Ensure navbar is initially visible */
-            position: fixed; /* Make it fixed */
-            width: 100%;    /* Full width */
-            z-index: 1000;  /* Ensure it's above other elements */
-        }
-
-        .navbar.hidden {
-            top: -100px; /* Height of your navbar */
-        }
-
-        .navbar.visible {
-            top: 0;
-        }
-
-        .navbar-nav .nav-link {
-            color: #000 !important;
-        }
-
-        .nav-link.login-btn {
-            background-color: #000;
-            color: #fff !important;
-            border-radius: 8px;
-            padding: 6px 12px;
-            transition: 0.3s;
-        }
-
-        .nav-link.login-btn:hover {
-            background-color: #333;
-        }
-
-        .card-img-top {
-            height: 200px;
-            object-fit: cover;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-light">
     <nav id="navbar" class="navbar navbar-expand-lg bg-body-tertiary visible">
@@ -79,7 +37,7 @@
             </div>
         </div>
     </nav>
-
+    <!--           Introduction         -->
     <section id="intro"
              class="d-flex justify-content-center align-items-center text-white text-center min-vh-100"
              style="background: url('images/arkaplan.jpg') center/cover no-repeat;">
@@ -92,118 +50,126 @@
         </div>
     </section>
 
+    <!--         Recommendations        -->
     <section id="recommendation" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-3">Our Recommendations</h2>
-            <div class="row justify-content-center g-4">
-                <h3 class="text-center">İstanbul</h3>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/dummy-img-1.jpg" class="card-img-top" alt="Öneri 1">
-                        <div class="card-body d-flex flex-column justify-content-center text-center">
-                            <h5 class="card-title">İstanbul 1</h5>
-                        </div>
-                        <div class="card-footer text-center bg-white border-0">
-                            <a href="#" class="btn btn-outline-primary">See more</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/dummy-img-2.jpg" class="card-img-top" alt="Öneri 2">
-                        <div class="card-body d-flex flex-column justify-content-center text-center">
-                            <h5 class="card-title">İstanbul 2</h5>
-                        </div>
-                        <div class="card-footer text-center bg-white border-0">
-                            <a href="#" class="btn btn-outline-primary">See more</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/dummy-img-3.jpg" class="card-img-top" alt="Öneri 3">
-                        <div class="card-body d-flex flex-column justify-content-center text-center">
-                            <h5 class="card-title">İstanbul 3</h5>
-                        </div>
-                        <div class="card-footer text-center bg-white border-0">
-                            <a href="#" class="btn btn-outline-primary">See more</a>
-                        </div>
-                    </div>
+      <div class="container-lg">
+        <div class="text-center">
+          <h2>Our Recommendations</h2>
+          <p class="lead text-muted">Best Hotels in Turkiye</p>
+        </div>
+
+
+        <!--    İstanbul     -->
+        <div class="row my-5 align-items-center justify-content-between mb-5">
+          <h2 class="display">İstanbul</h2>
+          <!--     Kart 1      -->
+          <div class="col-8 col-lg-4 col-xl-3" style="width:400px ;">
+            <div class="card border-0">
+              <img src="images/dummy-img-1.jpg" class="card-img-top"">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Zart Hotel</h5>
+                  <a href="#" class="card-btn btn btn-outline-dark">Learn More</a>
                 </div>
             </div>
-            <div class="row justify-content-center g-4 my-2">
-                <h3 class="text-center">Ankara</h3>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/dummy-img-3.jpg" class="card-img-top" alt="Öneri 1">
-                        <div class="card-body d-flex flex-column justify-content-center text-center">
-                            <h5 class="card-title">Ankara 1</h5>
-                        </div>
-                        <div class="card-footer text-center bg-white border-0">
-                            <a href="#" class="btn btn-outline-primary">See more</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/dummy-img-1.jpg" class="card-img-top" alt="Öneri 2">
-                        <div class="card-body d-flex flex-column justify-content-center text-center">
-                            <h5 class="card-title">Ankara 2</h5>
-                        </div>
-                        <div class="card-footer text-center bg-white border-0">
-                            <a href="#" class="btn btn-outline-primary">See more</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/dummy-img-2.jpg" class="card-img-top" alt="Öneri 3">
-                        <div class="card-body d-flex flex-column justify-content-center text-center">
-                            <h5 class="card-title">Ankara 3</h5>
-                        </div>
-                        <div class="card-footer text-center bg-white border-0">
-                            <a href="#" class="btn btn-outline-primary">See more</a>
-                        </div>
-                    </div>
+          </div>
+          <!--     Kart 2      -->
+          <div class="col-8 col-lg-4 col-xl-3" style="width:400px ;">
+            <div class="card border-0">
+              <img src="images/dummy-img-2.jpg" class="card-img-top" ">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Zort Hotel</h5>
+                  <a href="#" class="card-btn btn btn-outline-dark">Learn More</a>
                 </div>
             </div>
-            <div class="row justify-content-center g-4 my-2">
-                <h3 class="text-center">Antalya</h3>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/dummy-img-2.jpg" class="card-img-top" alt="Öneri 1">
-                        <div class="card-body d-flex flex-column justify-content-center text-center">
-                            <h5 class="card-title">Antalya 1</h5>
-                        </div>
-                        <div class="card-footer text-center bg-white border-0">
-                            <a href="#" class="btn btn-outline-primary">See more</a>
-                        </div>
-                    </div>
+          </div>
+          <!--     Kart 3      -->
+          <div class="col-8 col-lg-4 col-xl-3" style="width:400px ;">
+            <div class="card border-0">
+              <img src="images/dummy-img-3.jpg" class="card-img-top"">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Zırt Hotel</h5>
+                  <a href="#" class="card-btn btn btn-outline-dark">Learn More</a>
                 </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/dummy-img-3.jpg" class="card-img-top" alt="Öneri 2">
-                        <div class="card-body d-flex flex-column justify-content-center text-center">
-                            <h5 class="card-title">Antalya 2</h5>
-                        </div>
-                        <div class="card-footer text-center bg-white border-0">
-                            <a href="#" class="btn btn-outline-primary">See more</a>
-                        </div>
-                    </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!--    Ankara     -->
+        <div class="row my-5 align-items-center justify-content-between mb-5">
+          <h2 class="display">Ankara</h2>
+          <!--     Kart 1      -->
+          <div class="col-8 col-lg-4 col-xl-3" style="width:400px ;">
+            <div class="card border-0">
+              <img src="images/dummy-img-4.jpg" class="card-img-top"">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Tart Hotel</h5>
+                  <a href="#" class="card-btn btn btn-outline-dark">Learn More</a>
                 </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="images/dummy-img-1.jpg" class="card-img-top" alt="Öneri 3">
-                        <div class="card-body d-flex flex-column justify-content-center text-center">
-                            <h5 class="card-title">Antalya 3</h5>
-                        </div>
-                        <div class="card-footer text-center bg-white border-0">
-                            <a href="#" class="btn btn-outline-primary">See more</a>
-                        </div>
-                    </div>
+            </div>
+          </div>
+          <!--     Kart 2      -->
+          <div class="col-8 col-lg-4 col-xl-3" style="width:400px ;">
+            <div class="card border-0">
+              <img src="images/dummy-img-5.jpg" class="card-img-top" ">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Tort Hotel</h5>
+                  <a href="#" class="card-btn btn btn-outline-dark">Learn More</a>
+                </div>
+            </div>
+          </div>
+          <!--     Kart 3      -->
+          <div class="col-8 col-lg-4 col-xl-3" style="width:400px ;">
+            <div class="card border-0">
+              <img src="images/dummy-img-6.jpg" class="card-img-top"">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Tırt Hotel</h5>
+                  <a href="#" class="card-btn btn btn-outline-dark">Learn More</a>
+                </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!--    Antalya     -->
+        <div class="row my-5 align-items-center justify-content-between mb-5">
+          <h2 class="display">Antalya</h2>
+          <!--     Kart 1      -->
+          <div class="col-8 col-lg-4 col-xl-3" style="width:400px ;">
+            <div class="card border-0">
+              <img src="images/dummy-img-7.jpg" class="card-img-top"">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Part Hotel</h5>
+                  <a href="#" class="card-btn btn btn-outline-dark">Learn More</a>
+                </div>
+            </div>
+          </div>
+          <!--     Kart 2      -->
+          <div class="col-8 col-lg-4 col-xl-3" style="width:400px;">
+            <div class="card border-0 position-relative">
+                <img src="images/dummy-img-8.jpg" class="card-img-top" alt="Antalya">
+                <div class="card-body text-center position-absolute bottom-0 start-0 p-3">
+                    <h5 class="card-title text-white">Port Hotel</h5> 
+                    <a href="#" class="card-btn btn btn-outline-dark">Learn More</a>
                 </div>
             </div>
         </div>
+        
+          <!--     Kart 3      -->
+          <div class="col-8 col-lg-4 col-xl-3" style="width:400px ;">
+            <div class="card border-0">
+              <img src="images/dummy-img-9.jpg" class="card-img-top"">
+                <div class="card-body text-center">
+                  <h5 class="card-title">Pırt Hotel</h5>
+                  <a href="#" class="card-btn btn btn-outline-light">Learn More</a>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="justify-content-center">
+          <button class="btn btn-dark">Get Yourself a Room!</button>
+        </div>
+      </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>

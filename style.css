@@ -54,14 +54,14 @@ color: #fff; /* Başlık yazısının rengi */
 margin-bottom: 10px;
 }
 
-.btn {
+.card-btn {
 color: #fff; /* Buton yazısının rengi */
 border-color: #fff; /* Butonun kenar rengi beyaz */
 background-color: transparent; /* Arka plan transparan */
 transition: 0.3s; /* Buton üzerine gelince renk değişimi için geçiş ekliyoruz */
 }
 
-.btn:hover {
+.card-btn:hover {
 color: #000; /* Buton üzerine gelince yazının siyah olması */
 background-color: #fff; /* Butonun arka planının beyaz olması */
 }
