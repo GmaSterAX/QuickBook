@@ -1,67 +1,83 @@
 body {
-    font-family: 'Poppins', sans-serif;
-}
+            font-family: 'Poppins', sans-serif;
+        }
 
-.navbar {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: top 0.3s ease-in-out; /* Added for smooth transition */
-    top: 0; /* Ensure navbar is initially visible */
-    position: fixed; /* Make it fixed */
-    width: 100%;    /* Full width */
-    z-index: 1000;  /* Ensure it's above other elements */
-}
+        .navbar {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: top 0.3s ease-in-out; /* Added for smooth transition */
+            top: 0; /* Ensure navbar is initially visible */
+            position: fixed; /* Make it fixed */
+            width: 100%;    /* Full width */
+            z-index: 1000;  /* Ensure it's above other elements */
+        }
 
-.navbar.hidden {
-    top: -100px; /* Height of your navbar */
-}
+        .navbar.hidden {
+            top: -100px; /* Height of your navbar */
+        }
 
-.navbar.visible {
-    top: 0;
-}
+        .navbar.visible {
+            top: 0;
+        }
 
-.navbar-nav .nav-link {
-    color: #000 !important;
-}
+        .navbar-nav .nav-link {
+            color: #000 !important;
+        }
 
-.nav-link.login-btn {
-    background-color: #000;
-    color: #fff !important;
-    border-radius: 8px;
-    padding: 6px 12px;
-    transition: 0.3s;
-}
+        .nav-link.login-btn {
+            background-color: #000;
+            color: #fff !important;
+            border-radius: 8px;
+            padding: 6px 12px;
+            transition: 0.3s;
+        }
 
-.nav-link.login-btn:hover {
-    background-color: #333;
-}
+        .nav-link.login-btn:hover {
+            background-color: #333;
+        }
 
-.card-img-top {
-width: 100%;
-height: 200px; /* Resmin yüksekliğini belirleyin */
-object-fit: cover; /* Resmi kartın boyutlarına uydurun */
+        .card-img-top {
+    width: 100%;
+    height: 200px; /* Resmin yüksekliğini belirleyin */
+    object-fit: cover; /* Resmi kartın boyutlarına uydurun */
 }
 
 .card-body {
-position: absolute;
-bottom: 0;
-left: 0;
-padding: 10px;
-width: 100%; /* Genişliği kartla aynı yapar */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    width: 100%; /* Genişliği kartla aynı yapar */
 }
 
 .card-title {
-color: #fff; /* Başlık yazısının rengi */
-margin-bottom: 10px;
+    color: #fff; /* Başlık yazısının rengi */
+    margin-bottom: 10px;
 }
 
-.card-btn {
-color: #fff; /* Buton yazısının rengi */
-border-color: #fff; /* Butonun kenar rengi beyaz */
-background-color: transparent; /* Arka plan transparan */
-transition: 0.3s; /* Buton üzerine gelince renk değişimi için geçiş ekliyoruz */
+.login-btn {
+    color: #fff; /* Buton yazısının rengi */
+    border-color: #fff; /* Butonun kenar rengi beyaz */
+    background-color: transparent; /* Arka plan transparan */
+    transition: 0.3s; /* Buton üzerine gelince renk değişimi için geçiş ekliyoruz */
 }
 
-.card-btn:hover {
-color: #000; /* Buton üzerine gelince yazının siyah olması */
-background-color: #fff; /* Butonun arka planının beyaz olması */
+.btn:hover {
+    color: #000; /* Buton üzerine gelince yazının siyah olması */
+    background-color: #fff; /* Butonun arka planının beyaz olması */
 }
+.city-card {
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+  }
+  .city-img-container {
+    height: 250px;
+  }
+  
+  .object-fit-cover {
+    object-fit: cover;
+  }
+    
