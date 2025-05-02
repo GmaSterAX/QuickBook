@@ -31,8 +31,8 @@ public class UserSeviceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(int userId) {
-        Users user = userRepository.findById((long) userId)
+    public UserDto getUserById(long userId) {
+        Users user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User does not exist with given id : " + userId));
 
         return UserMapper.mapToUserDto(user);
@@ -45,5 +45,27 @@ public class UserSeviceImpl implements UserService {
                 .map(UserMapper::mapToUserDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public UserDto updateUser(long userId, UserDto updatedUser) {
+        Users user = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("User is not found with given id : " + userId));
+
+        user.setName(updatedUser.getName());
+        user.setMail(updatedUser.getMail());
+        user.setPhone(updatedUser.getPhone());
+        user.setPassword(updatedUser.getPassword());
+
+        Users updatedUserObj = userRepository.save(user);
+        return UserMapper.mapToUserDto(updatedUserObj);
+    }
+
+    @Override
+    public void deleteUser(long userId) {
+        Users user = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("User is not found with given id : " + userId));
+        userRepository.deleteById((long) userId);
+    }
+
 
 }

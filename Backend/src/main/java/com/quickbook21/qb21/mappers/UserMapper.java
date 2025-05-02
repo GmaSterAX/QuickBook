@@ -6,7 +6,7 @@ import com.quickbook21.qb21.models.Users;
 public class UserMapper {
     public static UserDto mapToUserDto(Users user){
         return new UserDto(
-                (int) user.getId(),
+                user.getId(),
                 user.getName(),
                 user.getMail(),
                 user.getPhone(),

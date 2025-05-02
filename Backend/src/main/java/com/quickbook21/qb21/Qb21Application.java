@@ -16,5 +16,4 @@ public class Qb21Application {
 		SpringApplication.run(Qb21Application.class, args);
 	}
 
-
 }
