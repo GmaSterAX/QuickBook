@@ -1,0 +1,36 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.navbar {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: top 0.3s ease-in-out; /* Added for smooth transition */
+    top: 0; /* Ensure navbar is initially visible */
+    position: fixed; /* Make it fixed */
+    width: 100%;    /* Full width */
+    z-index: 1000;  /* Ensure it's above other elements */
+}
+
+.navbar.hidden {
+    top: -100px; /* Height of your navbar */
+}
+
+.navbar.visible {
+    top: 0;
+}
+
+.navbar-nav .nav-link {
+    color: #000 !important;
+}
+
+.nav-link.login-btn {
+    background-color: #000;
+    color: #fff !important;
+    border-radius: 8px;
+    padding: 6px 12px;
+    transition: 0.3s;
+}
+
+.nav-link.login-btn:hover {
+    background-color: #333;
+}
