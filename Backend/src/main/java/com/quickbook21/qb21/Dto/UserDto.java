@@ -1,20 +1,18 @@
-package com.quickbook21.qb21.models;
+package com.quickbook21.qb21.Dto;
 
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
 @Data
-public class Users {
-    @Id //Primary Key
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //For PK not to increment by one. Just for unique PKs.
+public class UserDto {
     private int id;
     private String mail;
     private String name;
     private String password;
     private String phone;
 
-    public Users(int id, String mail, String name, String password, String phone) {
+    public UserDto(int id, String mail, String name, String password, String phone) {
         this.id = id;
         this.mail = mail;
         this.name = name;
@@ -22,10 +20,10 @@ public class Users {
         this.phone = phone;
     }
 
-    public Users() {
+    public UserDto() {
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -64,5 +62,4 @@ public class Users {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
 }
