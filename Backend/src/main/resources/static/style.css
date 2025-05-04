@@ -1,0 +1,51 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px; /* Resmin yüksekliğini belirleyin */
+    object-fit: cover; /* Resmi kartın boyutlarına uydurun */
+}
+
+.card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 10px;
+    width: 100%; /* Genişliği kartla aynı yapar */
+}
+
+.card-title {
+    color: #fff; /* Başlık yazısının rengi */
+    margin-bottom: 10px;
+}
+
+.login-btn {
+    color: #fff; /* Buton yazısının rengi */
+    border-color: #fff; /* Butonun kenar rengi beyaz */
+    background-color: transparent; /* Arka plan transparan */
+    transition: 0.3s; /* Buton üzerine gelince renk değişimi için geçiş ekliyoruz */
+}
+
+.btn:hover {
+    color: #000; /* Buton üzerine gelince yazının siyah olması */
+    background-color: #fff; /* Butonun arka planının beyaz olması */
+}
+.city-card {
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+  }
+  .city-img-container {
+    height: 250px;
+  }
+  
+  .object-fit-cover {
+    object-fit: cover;
+  }
+  
+    
