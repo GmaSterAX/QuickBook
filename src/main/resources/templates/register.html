@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="static/navbar.css">
+  <link th:href="@{/css/navbar.css}" rel="stylesheet">
   <style>
     body {
       background: #f8f9fa;
@@ -51,13 +51,13 @@
                 <a class="nav-link active" th:href="@{/}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Quick! Book!</a>
+                <a class="nav-link" th:href="@{/reservation}">Quick! Book!</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/about}">Who are we?</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link login-btn" th:href="@{/login}">Log In/Sign Up</a>
+                <a class="nav-link login-btn" th:href="@{/login}">Log In/Register</a>
               </li>
             </ul>
           </div>
@@ -75,8 +75,8 @@
           </div>
           <div class="tab-content" id="tabContent">
             <div class="tab-pane fade show active" id="register" role="tabpanel">
-              <form th:action="@{/api/auth/register}" method="post">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <form id="registerForm" th:action="@{/register}" method="post">
+                <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
 
                 <div class="mb-3">
                   <label for="name" class="form-label">Name</label>
@@ -84,8 +84,8 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="emailregister" class="form-label">E-Mail</label>
-                  <input type="email" class="form-control" id="emailregister" name="email" required placeholder="example@email.com">
+                  <label for="mail" class="form-label">E-Mail</label>
+                  <input type="email" class="form-control" id="mail" name="mail" required placeholder="example@email.com">
                 </div>
 
                 <div class="mb-3">
@@ -94,10 +94,10 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="passwordregister" class="form-label">Password</label>
+                  <label for="password" class="form-label">Password</label>
                   <div class="input-group position-relative">
-                    <input type="password" class="form-control" id="passwordregister" name="password" required>
-                    <span class="input-group-text toggle-password" data-target="passwordregister">
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <span class="input-group-text toggle-password" data-target="password">
                       <i class="fas fa-eye-slash"></i>
                     </span>
                   </div>
@@ -115,7 +115,7 @@
 
                 <button type="submit" class="btn btn-dark w-100">Register</button>
               </form>
-              <p>Zaten bir hesabım var. <a th:href="@{/login}">Log in</a></p>
+              <p>If you already have an account then <a th:href="@{/login}">Log in</a></p>
             </div>
           </div>
         </div>
@@ -182,12 +182,14 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggleButtons = document.querySelectorAll('.toggle-password');
-    toggleButtons.forEach(function(button) {
-      button.addEventListener('click', function() {
-        const targetId = this.getAttribute('data-target');
-        const passwordInput = document.getElementById(targetId);
+  document.addEventListener('DOMContentLoaded', function () {
+  // Toggle password visibility
+  const toggleButtons = document.querySelectorAll('.toggle-password');
+  toggleButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      const targetId = this.getAttribute('data-target');
+      const passwordInput = document.getElementById(targetId);
+      if (passwordInput) {
         if (passwordInput.type === 'password') {
           passwordInput.type = 'text';
           this.querySelector('i').classList.remove('fa-eye-slash');
@@ -197,9 +199,85 @@
           this.querySelector('i').classList.remove('fa-eye');
           this.querySelector('i').classList.add('fa-eye-slash');
         }
-      });
+      } else {
+        console.error('Password input not found with ID:', targetId);
+      }
     });
   });
+
+  // JSON form submit
+  const form = document.getElementById('registerForm');
+  if (!form) {
+    console.error('Register form not found!');
+    return;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); // Sayfanın yenilenmesini engelle
+    
+    // Form elementlerini kontrol et
+    const nameInput = document.getElementById('name');
+    const mailInput = document.getElementById('mail');
+    const phoneInput = document.getElementById('phone');
+    const passwordInput = document.getElementById('password');
+    
+    // Form elemanları bulunamadıysa hata logla
+    if (!nameInput || !mailInput || !phoneInput || !passwordInput) {
+      console.error('Form elements not found:', {
+        name: !!nameInput,
+        mail: !!mailInput,
+        phone: !!phoneInput,
+        password: !!passwordInput
+      });
+      alert('Form elemanları bulunamadı. Lütfen sayfayı yenileyip tekrar deneyin.');
+      return;
+    }
+
+    const formData = {
+      name: nameInput.value,
+      mail: mailInput.value,
+      phone: phoneInput.value,
+      password: passwordInput.value,
+    };
+    
+    // Debug için
+    console.log('Gönderilecek veri:', JSON.stringify(formData));
+
+    fetch('/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => {
+      console.log('Response status:', response.status);
+      
+      if (response.ok) {
+        return response.json().catch(err => {
+          console.error('JSON parse error:', err);
+          return { message: 'İşlem başarılı ancak sunucu cevabı işlenemedi' };
+        });
+      } else {
+        // Hata detaylarını almaya çalış
+        return response.text().then(errorText => {
+          console.error('Error response:', errorText);
+          throw new Error(`Kayıt başarısız oldu (${response.status}): ${errorText || 'Bilinmeyen hata'}`);
+        });
+      }
+    })
+    .then(data => {
+      console.log('Kayıt başarılı:', data);
+      alert("Kayıt başarılı!");
+      // Gerekirse yönlendirme: window.location.href = "/login";
+    })
+    .catch(error => {
+      console.error('Hata:', error);
+      alert("Kayıt sırasında bir hata oluştu: " + error.message);
+    });
+  });
+});
 </script>
+
 </body>
 </html>

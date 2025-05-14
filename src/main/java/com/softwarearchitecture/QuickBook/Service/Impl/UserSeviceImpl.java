@@ -35,7 +35,6 @@ public class UserSeviceImpl implements UserService {
     public UserDto getUserById(long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User does not exist with given id : " + userId));
-
         return UserMapper.mapToUserDto(user);
     }
 
