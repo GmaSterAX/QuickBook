@@ -1,10 +1,11 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
-import  com.softwarearchitecture.QuickBook.Dto.LoginDto;
-import  com.softwarearchitecture.QuickBook.Dto.RegisterDto;
-import  com.softwarearchitecture.QuickBook.Repository.UserRepository;
-import  com.softwarearchitecture.QuickBook.Model.User;
-import com.softwarearchitecture.QuickBook.Security.CustomUserDetailsService;
+
+import com.softwarearchitecture.QuickBook.Dto.LoginRequestDto;
+import com.softwarearchitecture.QuickBook.Dto.RegisterDto;
+import com.softwarearchitecture.QuickBook.Model.User;
+import com.softwarearchitecture.QuickBook.Repository.UserRepository;
+import com.softwarearchitecture.QuickBook.Security.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,18 +20,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailService customUserDetailsService;
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager,
                           UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
-                          CustomUserDetailsService customUserDetailsService) {
+                          CustomUserDetailService customUserDetailsService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -39,16 +40,18 @@ public class AuthController {
 
     // Login Endpoint
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequestDto) {
         try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginDto.getName(), loginDto.getPassword()));
+            UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequestDto.getMail(), loginRequestDto.getPassword());
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return new ResponseEntity<>("User signed in successfully!", HttpStatus.OK);
+            authenticationManager.authenticate(authToken);
 
+            return ResponseEntity.ok("Login successful!");
         } catch (Exception e) {
-            return new ResponseEntity<>("Login failed: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
+            e.printStackTrace(); // Daha fazla detay için
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: " + e.getMessage());
         }
     }
 

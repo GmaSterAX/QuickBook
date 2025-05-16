@@ -1,18 +1,32 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class PageController {
+    @GetMapping("/index")
+    public String getHomePage(){
+        return "index";
+    }
+
+    @GetMapping("/about")
+    public String getAboutPage(){
+        return "about";
+    }
+
     @GetMapping("/login")
-    public String showLoginPage() {
-        return "login"; // templates/login.html
+    public String getLoginPage() {
+        return "login";
     }
 
     @GetMapping("/register")
-    public String showRegisterPage() {
-        return "register"; // templates/register.html
+    public String getRegisterPage() {
+        return "register";
+    }
+
+    @GetMapping("/reservation")
+    public String getReservationPage() {
+        return "reservation";
     }
 }
