@@ -82,18 +82,4 @@ public class AuthController {
 
         return new ResponseEntity<>("Account created successfully!", HttpStatus.CREATED);
     }
-
-    @GetMapping("/user-info")
-    public Map<String, Object> getUserInfo(Principal principal) {
-        Map<String, Object> response = new HashMap<>();
-
-        if (principal != null) {
-        response.put("loggedIn", true);
-        response.put("username", principal.getName()); // veya email, id vb.
-        } else {
-        response.put("loggedIn", false);
-        }
-    return response;
-}
-
 }
