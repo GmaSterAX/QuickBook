@@ -6,6 +6,11 @@ import com.softwarearchitecture.QuickBook.Dto.RegisterDto;
 import com.softwarearchitecture.QuickBook.Model.User;
 import com.softwarearchitecture.QuickBook.Repository.UserRepository;
 import com.softwarearchitecture.QuickBook.Security.CustomUserDetailService;
+
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,4 +82,18 @@ public class AuthController {
 
         return new ResponseEntity<>("Account created successfully!", HttpStatus.CREATED);
     }
+
+    @GetMapping("/user-info")
+    public Map<String, Object> getUserInfo(Principal principal) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (principal != null) {
+        response.put("loggedIn", true);
+        response.put("username", principal.getName()); // veya email, id vb.
+        } else {
+        response.put("loggedIn", false);
+        }
+    return response;
+}
+
 }
