@@ -18,6 +18,10 @@ import java.util.List;
 @RestController
 public class UserController {
     private UserService userService;
+<<<<<<< HEAD
+=======
+    private UserRepository userRepository;
+>>>>>>> 00020fdbab055ba28c9420f6ec3087c78ff2f7cc
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -38,7 +42,11 @@ public class UserController {
 
     //GET User REST API
     @GetMapping("users-get_{id}")
+<<<<<<< HEAD
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") long userId){ //PathVariabledaki id, GetMappingteki id'ye yazılır.
+=======
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") int userId){ //PathVariabledaki id, GetMappingteki id'ye yazılır.
+>>>>>>> 00020fdbab055ba28c9420f6ec3087c78ff2f7cc
         UserDto userDto = userService.getUserById(userId);
         return ResponseEntity.ok(userDto);
     }
