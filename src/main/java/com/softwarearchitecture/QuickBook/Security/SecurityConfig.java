@@ -22,21 +22,19 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private final CustomUserDetailService userDetailsService;
 
-
     public SecurityConfig(CustomUserDetailService userDetailsService){
         this.userDetailsService = userDetailsService;
     }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
-                .httpBasic(Customizer.withDefaults());
-
+                .httpBasic(httpBasic -> httpBasic.disable()); // Basic Auth devre dışı
         return http.build();
     }
 

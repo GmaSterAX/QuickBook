@@ -1,19 +1,20 @@
 package com.softwarearchitecture.QuickBook.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "hotels")
 public class Hotel {
 
     @Id
@@ -24,4 +25,5 @@ public class Hotel {
     private String city;
     private String phone;
     private double point;
+
 }
