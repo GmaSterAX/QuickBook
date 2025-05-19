@@ -18,9 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // 🧾 Giriş formu işlemi
-  const loginForm = document.querySelector('#login-form'); // ⚠️ Daha spesifik ID ile seçildi
-  const submitBtn = document.querySelector('#login-submit'); // Giriş butonunu seçiyoruz
+  const loginForm = document.querySelector('#loginForm');
+  const submitBtn = document.querySelector('#loginSubmit');
 
   if (loginForm) {
     loginForm.addEventListener('submit', function (e) {
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Butonu devre dışı bırak UX için
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Giriş yapılıyor...';
+        submitBtn.textContent = 'Logging in...';
       }
 
       const formData = {
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
           if (response.ok) {
             // Başarılı login işlemi
-            return response.json();
+            return response.text();
           } else {
             return response.text().then(errorText => {
               throw new Error(`Giriş başarısız oldu (${response.status}): ${errorText || 'Bilinmeyen hata'}`);
@@ -61,12 +60,18 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
           if (data) {
             console.log('Giriş başarılı:', data);
-            // LocalStorage'a kullanıcı adı vs. yazılabilir
-            if (data.username) {
-              localStorage.setItem('username', data.username);
-            }
+
+            localStorage.setItem('isLoggedIn', 'true');
+
             // Ana sayfaya yönlendir
             window.location.href = '/';
+
+            //userDropdown.style.display = "inline-block";
+            //loginButton.style.display = "none";
+          }else{
+            localStorage.setItem('isLoggedIn', 'false');
+            //userDropdown.style.display = "none";
+            //loginButton.style.display = "inline-block";
           }
         })
         .catch(error => {

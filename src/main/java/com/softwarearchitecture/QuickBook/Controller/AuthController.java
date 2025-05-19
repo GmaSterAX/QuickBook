@@ -63,23 +63,30 @@ public class AuthController {
 
     // Register Endpoint
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
-        if (userRepository.existsByNameOrMailOrPhone(registerDto.getName(), registerDto.getMail(), registerDto.getPhone())) {
-            return new ResponseEntity<>("User already exists.", HttpStatus.BAD_REQUEST);
-        }
+public ResponseEntity<Map<String, String>> register(@RequestBody RegisterDto registerDto) {
+    Map<String, String> response = new HashMap<>();
 
-        // Kullanıcıyı oluştur
-        User user = new User();
-        user.setName(registerDto.getName());
-        user.setMail(registerDto.getMail());
-        user.setPhone(registerDto.getPhone());
-
-        // Şifreyi encode et
-        user.setPassword(passwordEncoder.encode(registerDto.getPassword())); // Şifreyi bcrypt ile encode ediyoruz
-
-        // Veritabanına kaydet
-        userRepository.save(user);
-
-        return new ResponseEntity<>("Account created successfully!", HttpStatus.CREATED);
+    if (userRepository.existsByNameOrMailOrPhone(
+            registerDto.getName(), 
+            registerDto.getMail(), 
+            registerDto.getPhone())) {
+        
+        response.put("message", "This user already exists.");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    // Kullanıcıyı oluştur
+    User user = new User();
+    user.setName(registerDto.getName());
+    user.setMail(registerDto.getMail());
+    user.setPhone(registerDto.getPhone());
+    user.setPassword(passwordEncoder.encode(registerDto.getPassword())); // Şifreyi bcrypt ile encode ediyoruz
+
+    // Veritabanına kaydet
+    userRepository.save(user);
+
+    response.put("message", "Your account created successfully!");
+    return new ResponseEntity<>(response, HttpStatus.CREATED);
+}
+
 }
