@@ -1,31 +1,33 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
 import com.softwarearchitecture.QuickBook.Dto.HotelDto;
-import com.softwarearchitecture.QuickBook.Repository.HotelRepository;
 import com.softwarearchitecture.QuickBook.Service.HotelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class HotelController {
     private HotelService hotelService;
-    private HotelRepository hotelRepository;
 
     @Autowired
     public HotelController(HotelService hotelService){
         this.hotelService = hotelService;
     }
 
-    @GetMapping("/hotel-get_{id}")
-    public ResponseEntity<HotelDto> getHotelById(@PathVariable("id") long hotelId){
-        HotelDto hotelDto = hotelService.getHotelById(hotelId);
-        return ResponseEntity.ok(hotelDto);
+    @GetMapping("/hotel/{id}")
+    public String getHotelPage(@PathVariable("id") long hotelId, Model model) {
+        HotelDto hotel = hotelService.getHotelById(hotelId);
+        model.addAttribute("hotel", hotel); // Thymeleaf'e gönderiyoruz
+        return "hotel-details"; // Bu, hotel-details.html dosyasıdır
     }
+
 
     @GetMapping("hotel-get_all")
     public ResponseEntity<List<HotelDto>> getAllHotels(){
@@ -44,3 +46,4 @@ public class HotelController {
         return ResponseEntity.ok(hotels);
     }
 }
+

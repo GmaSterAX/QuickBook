@@ -16,4 +16,5 @@ public class HotelDto {
     private String city;
     private String phone;
     private double point;
+    private String img_url;
 }

@@ -56,5 +56,4 @@ public class HotelServiceImpl implements HotelService {
                 .map(HotelMapper::mapToHotelDto)
                 .toList();
     }
-
 }

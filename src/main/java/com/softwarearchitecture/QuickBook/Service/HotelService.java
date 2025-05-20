@@ -9,5 +9,4 @@ public interface HotelService {
     List<HotelDto> getAllHotels();
     List<HotelDto> getHotelByCity(String city);
     List<HotelDto> getHotelByPoint(double point) throws IllegalArgumentException;
-
 }

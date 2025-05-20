@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @Entity
 @Builder
@@ -25,5 +22,5 @@ public class Hotel {
     private String city;
     private String phone;
     private double point;
-
+    private String img_url;
 }

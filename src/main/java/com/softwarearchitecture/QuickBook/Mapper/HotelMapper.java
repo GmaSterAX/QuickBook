@@ -12,7 +12,8 @@ public class HotelMapper {
                 hotel.getAddress(),
                 hotel.getCity(),
                 hotel.getPhone(),
-                hotel.getPoint()
+                hotel.getPoint(),
+                hotel.getImg_url()
         );
     }
 
@@ -23,7 +24,8 @@ public class HotelMapper {
                 hotelDto.getAddress(),
                 hotelDto.getCity(),
                 hotelDto.getPhone(),
-                hotelDto.getPoint()
+                hotelDto.getPoint(),
+                hotelDto.getImg_url()
         );
     }
 }
