@@ -24,8 +24,8 @@ public class HotelController {
     @GetMapping("/hotel/{id}")
     public String getHotelPage(@PathVariable("id") long hotelId, Model model) {
         HotelDto hotel = hotelService.getHotelById(hotelId);
-        model.addAttribute("hotel", hotel); // Thymeleaf'e gönderiyoruz
-        return "hotel-details"; // Bu, hotel-details.html dosyasıdır
+        model.addAttribute("hotel", hotel);
+        return "hotel-details";
     }
 
 

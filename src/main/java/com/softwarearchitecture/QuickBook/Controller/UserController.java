@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,12 +33,12 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-
-    // GET User by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("id") long userId) {
-        UserDto userDto = userService.getUserById(userId);
-        return ResponseEntity.ok(userDto);
+    //GET User REST API
+    @GetMapping("/user/{id}")
+    public String getHotelPage(@PathVariable("id") long userId, Model model) {
+        UserDto user = userService.getUserById(userId);
+        model.addAttribute("user", user);
+        return "my-account";
     }
 
     // GET All Users
