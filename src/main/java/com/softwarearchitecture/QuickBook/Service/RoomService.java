@@ -1,12 +1,12 @@
 package com.softwarearchitecture.QuickBook.Service;
 
 import com.softwarearchitecture.QuickBook.Dto.RoomDto;
-import org.springframework.stereotype.Service;
+import com.softwarearchitecture.QuickBook.Model.Room;
 
 import java.util.List;
 
-@Service
 public interface RoomService {
-
-    List<RoomDto> getByRoomCapacity(int capacity);
+    List<RoomDto> getRoomByCapacity(int capacity);
+    List<RoomDto> getRoomsByCityAndCapacity(String city, int capacity);
+    List<RoomDto> getRoomsByCityHotelAndCapacity(String city, long hotelId, int capacity);
 }

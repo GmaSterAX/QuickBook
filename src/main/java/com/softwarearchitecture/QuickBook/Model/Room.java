@@ -6,30 +6,34 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "rooms")
+@Table(name = "room")
 public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name= "hotel_id", nullable = false)
-    private int hotel_id;
-
-    @Column(name = "price", nullable = false)
+    private long roomId;
     private BigDecimal price;
-
-    @Column(name = "reserved", nullable = false)
     private boolean reserved;
-
-    @Column(name = "capacity", nullable = false)
     private int capacity;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
 
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoomService> roomServiceList = new ArrayList<>();
 
+    public Room(long roomId, BigDecimal price, boolean reserved, int capacity) {
+        this.roomId = roomId;
+        this.price = price;
+        this.reserved = reserved;
+        this.capacity = capacity;
+    }
 }
