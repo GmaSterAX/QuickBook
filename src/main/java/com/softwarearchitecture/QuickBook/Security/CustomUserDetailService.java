@@ -3,7 +3,6 @@ package com.softwarearchitecture.QuickBook.Security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
-import com.softwarearchitecture.QuickBook.Model.User;
 import com.softwarearchitecture.QuickBook.Repository.UserRepository;
 
 import java.util.ArrayList;

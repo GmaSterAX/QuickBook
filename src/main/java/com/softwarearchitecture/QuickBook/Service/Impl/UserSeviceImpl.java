@@ -62,10 +62,23 @@ public class UserSeviceImpl implements UserService {
 
     @Override
     public void deleteUser(long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
+        userRepository.findById(userId).orElseThrow(
                 () -> new ResourceNotFoundException("User is not found with given id : " + userId));
         userRepository.deleteById((long) userId);
     }
+
+    @Override
+    public UserDto getUserByName(String userName) {
+        User user = userRepository.findByName(userName)
+                .orElseThrow(() -> new ResourceNotFoundException("User does not exist with given name : " + userName));
+        return UserMapper.mapToUserDto(user);
+    }
+
+    @Override
+    public UserDto getUserByMail(String userMail) {
+        User user = userRepository.findByMail(userMail)
+                .orElseThrow(() -> new ResourceNotFoundException("User does not exist with given name : " + userMail));
+        return UserMapper.mapToUserDto(user);}
 
 
 }

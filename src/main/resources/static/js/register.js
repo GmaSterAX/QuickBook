@@ -29,82 +29,87 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   form.addEventListener('submit', function (e) {
-    e.preventDefault(); // Sayfanın yenilenmesini engelle
+    e.preventDefault();
     
     // Form elementlerini kontrol et
     const nameInput = document.getElementById('name');
     const mailInput = document.getElementById('mail');
     const phoneInput = document.getElementById('phone');
     const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('passwordConfirm');
+    const error = document.getElementById("error");
     
     // Form elemanları bulunamadıysa hata logla
-    if (!nameInput || !mailInput || !phoneInput || !passwordInput) {
+    if (!nameInput || !mailInput || !phoneInput || !passwordInput || !confirmPasswordInput) {
       console.error('Form elements not found:', {
         name: !!nameInput,
         mail: !!mailInput,
         phone: !!phoneInput,
-        password: !!passwordInput
+        password: !!passwordInput,
+        confirmPassword: !!confirmPasswordInput
       });
       alert('Form elemanları bulunamadı. Lütfen sayfayı yenileyip tekrar deneyin.');
       return;
     }
 
-    const formData = {
-      name: nameInput.value,
-      mail: mailInput.value,
-      phone: phoneInput.value,
-      password: passwordInput.value,
-    };
-    
-    // Debug için
-    console.log('Gönderilecek veri:', JSON.stringify(formData));
+    // Compare password values, not the DOM elements
+    if (passwordInput.value !== confirmPasswordInput.value) {
+      error.textContent = "Şifreler uyuşmuyor!";
+    } else {
+      error.textContent = "";
 
-    fetch('/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(response => {
-      console.log('Response status:', response.status);
-      
-      if (response.ok) {
-        return response.json().catch(err => {
-          console.error('JSON parse error:', err);
-          return { message: 'Register was successful but server answer could not processed' };
+      const formData = {
+        name: nameInput.value,
+        mail: mailInput.value,
+        phone: phoneInput.value,
+        password: passwordInput.value,
+      };
+
+      fetch('/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => {
+        console.log('Response status:', response.status);
+        
+        if (response.ok) {
+          return response.json().catch(err => {
+            console.error('JSON parse error:', err);
+            return { message: 'Register was successful but server answer could not processed' };
+          });
+        } else {
+          // Hata detaylarını almaya çalış
+          return response.text().then(errorText => {
+            console.error('Error response:', errorText);
+            throw new Error(`Register failed (${response.status}): ${errorText || 'Unknown error'}`);
+          });
+        }
+      })
+      .then(data => {
+        Swal.fire({
+          title: 'Succesful!',
+          text: data.message,
+          icon: 'success',
+          confirmButtonText: 'Okey',
+          confirmButtonColor: '#212529',
+          background: '#f0f0f0'
+        }).then(() => {
+          window.location.href = "/login";
         });
-      } else {
-        // Hata detaylarını almaya çalış
-        return response.text().then(errorText => {
-          console.error('Error response:', errorText);
-          throw new Error(`Register failed (${response.status}): ${errorText || 'Unknown error'}`);
+      })
+      .catch(error => {
+        Swal.fire({
+          title: 'Hata!',
+          text: error.message,
+          icon: 'error',
+          confirmButtonText: 'Okey',
+          confirmButtonColor: '#212529',
+          background: '#fff0f0'
         });
-      }
-    })
-    .then(data => {
-      Swal.fire({
-        title: 'Succesful!',
-        text: data.message, 
-        icon: 'success',
-        confirmButtonText: 'Okey',
-        confirmButtonColor: '#212529',
-        background: '#f0f0f0'
-}).then(() => {
-  window.location.href = "/login";
-});
-
-    })
-    .catch(error => {
-      Swal.fire({
-      title: 'Hata!',
-      text: error.message,
-      icon: 'error',
-      confirmButtonText: 'Okey',
-      confirmButtonColor: '#212529',
-    background: '#fff0f0'
-});
-
-    });
+      });
+    }
   });
 });

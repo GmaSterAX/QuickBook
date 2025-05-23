@@ -4,7 +4,6 @@ import com.softwarearchitecture.QuickBook.Model.RoomService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface RoomServiceRepository extends JpaRepository<RoomService, Long> {
     RoomService findById(long roomServiceId);

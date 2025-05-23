@@ -6,14 +6,18 @@ import com.softwarearchitecture.QuickBook.Dto.RegisterDto;
 import com.softwarearchitecture.QuickBook.Model.User;
 import com.softwarearchitecture.QuickBook.Repository.UserRepository;
 import com.softwarearchitecture.QuickBook.Security.CustomUserDetailService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +29,6 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final CustomUserDetailService customUserDetailsService;
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager,
@@ -35,12 +38,11 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.customUserDetailsService = customUserDetailsService;
     }
 
     // Login Endpoint
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequestDto) {
+    public String login(@RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request, Model model) {
         try {
             UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(
@@ -48,11 +50,33 @@ public class AuthController {
 
             authenticationManager.authenticate(authToken);
 
-            return ResponseEntity.ok("Login successful!");
+            User user = userRepository.findByMail(loginRequestDto.getMail())
+                .orElseThrow(() -> new UsernameNotFoundException("User couldn't found"));
+
+            if (user.getName() == null || user.getName().isBlank()) {
+                return "";
+            }
+            String[] words = user.getName().trim().split("\\s+");
+            StringBuilder userInitials = new StringBuilder();
+
+            for (String word : words) {
+                if (!word.isEmpty()) {
+                    userInitials.append(Character.toUpperCase(word.charAt(0)));
+                }
+            }
+            request.getSession().setAttribute("userInitials", userInitials);
+        return "/";
         } catch (Exception e) {
             e.printStackTrace(); // Daha fazla detay için
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: " + e.getMessage());
+            model.addAttribute("error", "Login wasn't successfull: " + e.getMessage());
+        return "login";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().invalidate(); // tüm session'ı siler
+        return "login";
     }
 
     // Register Endpoint

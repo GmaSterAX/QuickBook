@@ -1,7 +1,6 @@
 package com.softwarearchitecture.QuickBook.Service;
 
 import com.softwarearchitecture.QuickBook.Dto.RoomDto;
-import com.softwarearchitecture.QuickBook.Model.Room;
 
 import java.util.List;
 

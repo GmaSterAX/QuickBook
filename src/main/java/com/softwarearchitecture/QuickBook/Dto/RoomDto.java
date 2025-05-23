@@ -1,6 +1,5 @@
 package com.softwarearchitecture.QuickBook.Dto;
 
-import com.softwarearchitecture.QuickBook.Model.Hotel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

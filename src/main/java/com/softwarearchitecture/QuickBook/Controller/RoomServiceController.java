@@ -1,7 +1,6 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
 import com.softwarearchitecture.QuickBook.Dto.RoomServiceDto;
-import com.softwarearchitecture.QuickBook.Model.RoomService;
 import com.softwarearchitecture.QuickBook.Service.RoomServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

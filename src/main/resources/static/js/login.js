@@ -36,8 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
         password: document.getElementById('password').value
       };
 
-      console.log('Giriş verileri gönderiliyor:', formData);
-
       fetch('/login', {
         method: 'POST',
         headers: {
@@ -61,7 +59,9 @@ document.addEventListener('DOMContentLoaded', function () {
           if (data) {
             console.log('Giriş başarılı:', data);
 
+            const email = document.getElementById('mail').value;
             localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userMail',email);
 
             // Ana sayfaya yönlendir
             window.location.href = '/';

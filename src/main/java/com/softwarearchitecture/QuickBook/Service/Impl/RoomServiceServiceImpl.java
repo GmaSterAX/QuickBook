@@ -1,7 +1,6 @@
 package com.softwarearchitecture.QuickBook.Service.Impl;
 
 import com.softwarearchitecture.QuickBook.Dto.RoomServiceDto;
-import com.softwarearchitecture.QuickBook.Exception.ResourceNotFoundException;
 import com.softwarearchitecture.QuickBook.Mapper.RoomServiceMapper;
 import com.softwarearchitecture.QuickBook.Model.RoomService;
 import com.softwarearchitecture.QuickBook.Repository.RoomServiceRepository;

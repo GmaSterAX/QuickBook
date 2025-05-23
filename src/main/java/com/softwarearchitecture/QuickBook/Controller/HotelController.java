@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ public class HotelController {
         this.hotelService = hotelService;
     }
 
-    @GetMapping("/hotel/{id}")
-    public String getHotelPage(@PathVariable("id") long hotelId, Model model) {
-        HotelDto hotel = hotelService.getHotelById(hotelId);
+    @GetMapping("/hotel")
+    public String getHotelPage(@RequestParam("hotelName") String hotelName, Model model) {
+        HotelDto hotel = hotelService.getHotelByName(hotelName);
         model.addAttribute("hotel", hotel);
         return "hotel-details";
     }

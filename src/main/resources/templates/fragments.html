@@ -30,14 +30,11 @@
               <li class="nav-item">
                 <a class="nav-link login-btn" id="loginButton" th:href="@{/login}">Log In/Register</a>
               </li>
-              <li class="nav-item dropdown" id="userDropdown" style="display: none;">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                <span >My Profile</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">My Account</a></li>
-                  <li><a class="dropdown-item" onclick="logOut()">Logout</a></li>
-                </ul>
+              <li class="nav-item" id="userDropdown" style="display: none;">
+                <button class="btn btn-outline-dark " type="button" data-bs-toggle="offcanvas" 
+                    data-bs-target="#userOffcanvas" aria-controls="userOffcanvas">
+                  <span th:text="${session.userInitials}">UI</span>
+                </button>
               </li>
             </ul>
           </div>
@@ -99,6 +96,54 @@
             </div>
         </div>
     </footer>
+    </div>
+    <div th:fragment="userOffcanvas">
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="userOffcanvas" aria-labelledby="offcanvasLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasLabel">Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Kapat"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="d-flex align-items-center">
+              <img src="/logos/user.png" alt="bed" width="20" height="20" class="me-2">
+              <button class="btn text-start w-100" onclick="fetchMyAccount()">Account</button>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="d-flex align-items-center">
+              <img src="/logos/double-bed.png" alt="bed" width="20" height="20" class="me-2">
+              <button class="btn text-start w-100">Reservations</button>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="d-flex align-items-center">
+              <img src="/logos/bookmark.png" alt="bed" width="20" height="20" class="me-2">
+              <button class="btn text-start w-100">Favorites</button>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="d-flex align-items-center">
+              <img src="/logos/bell.png" alt="bed" width="20" height="20" class="me-2">
+              <button class="btn text-start w-100">Notifications</button>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="d-flex align-items-center">
+              <img src="/logos/wallet.png" alt="bed" width="20" height="20" class="me-2">
+              <button class="btn text-start w-100">Payments</button>
+              </div>
+          </li>
+          <li class="list-group-item">
+            <div class="d-flex align-items-center">
+              <img src="/logos/logout.png" alt="bed" width="20" height="20" class="me-2">
+              <button class="btn text-start w-100 text-danger" onclick="logOut()">Logout</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
     </div>
 </body>
 </html>

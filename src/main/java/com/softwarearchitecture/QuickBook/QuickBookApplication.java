@@ -9,3 +9,4 @@ public class QuickBookApplication {
 		SpringApplication.run(QuickBookApplication.class, args);
 	}
 }
+	
