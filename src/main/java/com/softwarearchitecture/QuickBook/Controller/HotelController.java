@@ -45,5 +45,11 @@ public class HotelController {
         List<HotelDto> hotels = hotelService.getHotelByPoint(point);
         return ResponseEntity.ok(hotels);
     }
+
+    @GetMapping("/search")
+    public String getSearchResults(@RequestParam("city") String cityName, @RequestParam("#people") long roomCapacity, Model model){
+        
+        return null;
+    }
 }
 
