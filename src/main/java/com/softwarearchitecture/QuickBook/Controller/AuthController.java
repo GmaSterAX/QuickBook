@@ -5,7 +5,7 @@ import com.softwarearchitecture.QuickBook.Dto.LoginRequestDto;
 import com.softwarearchitecture.QuickBook.Dto.RegisterDto;
 import com.softwarearchitecture.QuickBook.Model.User;
 import com.softwarearchitecture.QuickBook.Repository.UserRepository;
-import com.softwarearchitecture.QuickBook.Security.CustomUserDetailService;
+import com.softwarearchitecture.QuickBook.Security.CustomUserDetailsService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -34,7 +34,7 @@ public class AuthController {
     public AuthController(AuthenticationManager authenticationManager,
                           UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
-                          CustomUserDetailService customUserDetailsService) {
+                          CustomUserDetailsService customUserDetailsService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
