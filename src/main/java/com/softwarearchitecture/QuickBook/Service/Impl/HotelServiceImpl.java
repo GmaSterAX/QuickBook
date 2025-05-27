@@ -2,6 +2,7 @@ package com.softwarearchitecture.QuickBook.Service.Impl;
 
 import com.softwarearchitecture.QuickBook.Dto.HotelDto;
 import com.softwarearchitecture.QuickBook.Mapper.HotelMapper;
+import com.softwarearchitecture.QuickBook.Mapper.HotelServiceMapper;
 import com.softwarearchitecture.QuickBook.Model.Hotel;
 import com.softwarearchitecture.QuickBook.Repository.HotelRepository;
 import com.softwarearchitecture.QuickBook.Service.HotelService;
@@ -21,10 +22,10 @@ public class HotelServiceImpl implements HotelService {
         this.hotelRepository = hotelRepository;
     }
 
-
     @Override
     public HotelDto getHotelById(long hotelId) {
-        Hotel hotel = hotelRepository.findById(hotelId);
+        Hotel hotel = hotelRepository.findById(hotelId)
+                .orElseThrow(() -> new RuntimeException("Hotel not found"));
         return HotelMapper.mapToHotelDto(hotel);
     }
 

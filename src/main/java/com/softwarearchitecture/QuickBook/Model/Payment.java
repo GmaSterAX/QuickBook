@@ -1,22 +1,35 @@
 package com.softwarearchitecture.QuickBook.Model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
-
-@Builder
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name ="payments")
+@Entity
+@Table(name = "payments")
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long reservation_id;
+
     private BigDecimal reservation_price;
     private String payment_method;
     private boolean payment_situation;
+
+    @OneToOne
+    @JoinColumn(name = "reservation_id", unique = true)
+    private Reservation reservation;
+
+    public Payment(long id, BigDecimal reservation_price, String payment_method, boolean payment_situation) {
+        this.id = id;
+        this.reservation_price = reservation_price;
+        this.payment_method = payment_method;
+        this.payment_situation = payment_situation;
+    }
 }

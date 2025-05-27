@@ -25,9 +25,6 @@ public class Hotel {
     private double point;
     private String img_url;
 
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Room> rooms = new ArrayList<Room>();
-
 
     public Hotel(long id, String name, String address, String city, String phone, double point, String img_url) {
         this.id = id;
@@ -38,4 +35,19 @@ public class Hotel {
         this.point = point;
         this.img_url = img_url;
     }
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Room> rooms = new ArrayList<Room>();
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private List<HotelService> services = new ArrayList<>();
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favourite> favourites = new ArrayList<>();
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> allReservations = new ArrayList<>();
 }

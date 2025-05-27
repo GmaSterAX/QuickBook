@@ -2,40 +2,51 @@ package com.softwarearchitecture.QuickBook.Model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "reservations")
 public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "user_id", nullable = false)
-    private int user_id;
-
-    @Column(name = "hotel_id", nullable = false)
-    private int hotel_id;
-
-    @Column(name = "room_id", nullable = false)
-    private int room_id;
-
-    @Column(name = "check_in", nullable = false)
+    private long id;
     private boolean check_in;
-
-    @Column(name = "check_out", nullable = false)
     private boolean check_out;
-
-    @Column(name = "state", nullable = false)
-    private String state;
-
-    @Column(name = "price", nullable = false)
     private BigDecimal price;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
+
+    @OneToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
+
+
+    public Reservation(long id, boolean check_in, boolean check_out, BigDecimal price) {
+        this.id = id;
+        this.check_in = check_in;
+        this.check_out = check_out;
+        this.price = price;
+    }
+
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
+    private Payment payment;
 }
 

@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "room")
+@Table(name = "rooms")
 public class Room {
 
     @Id
@@ -29,6 +29,9 @@ public class Room {
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoomService> roomServiceList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Reservation reservation;
 
     public Room(long roomId, BigDecimal price, boolean reserved, int capacity) {
         this.roomId = roomId;

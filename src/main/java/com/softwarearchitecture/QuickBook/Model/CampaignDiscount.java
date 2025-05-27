@@ -18,19 +18,14 @@ public class CampaignDiscount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "hotel_id", nullable = false)
     private int hotel_id;
 
-    @Column(name = "discount_code", nullable = false)
     private String discount_code;
 
-    @Column(name = "discount_amount", nullable = false)
     private BigDecimal discount_amount;
 
-    @Column(name = "start_date", nullable = false)
     private LocalDate start_date;
 
-    @Column(name = "finish_date", nullable = false)
     private LocalDate finish_date;
 }
 
