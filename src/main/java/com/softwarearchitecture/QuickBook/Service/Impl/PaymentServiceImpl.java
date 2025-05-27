@@ -1,11 +1,13 @@
 package com.softwarearchitecture.QuickBook.Service.Impl;
 
+import com.softwarearchitecture.QuickBook.Dto.NotificationDto;
 import com.softwarearchitecture.QuickBook.Dto.PaymentDto;
 import com.softwarearchitecture.QuickBook.Mapper.PaymentMapper;
 import com.softwarearchitecture.QuickBook.Model.Payment;
 import com.softwarearchitecture.QuickBook.Model.Reservation;
 import com.softwarearchitecture.QuickBook.Repository.PaymentRepository;
 import com.softwarearchitecture.QuickBook.Repository.ReservationRepository;
+import com.softwarearchitecture.QuickBook.Service.NotificationService;
 import com.softwarearchitecture.QuickBook.Service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final ReservationRepository reservationRepository;
+    private final NotificationService notificationService;
+
 
     @Autowired
     public PaymentServiceImpl(PaymentRepository paymentRepository,
-                              ReservationRepository reservationRepository) {
+                              ReservationRepository reservationRepository,
+                              NotificationService notificationService) {
         this.paymentRepository = paymentRepository;
         this.reservationRepository = reservationRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -40,6 +46,15 @@ public class PaymentServiceImpl implements PaymentService {
 
         Payment payment = PaymentMapper.mapToPayment(paymentDto, reservation);
         Payment savedPayment = paymentRepository.save(payment);
+
+        // payment olunca bildirim gönderiyoruz
+        NotificationDto notificationDto = NotificationDto.builder()
+                .message("Your reservation has been confirmed. Have a great holiday!")
+                .state("UNREAD")
+                .user_id(reservation.getUser().getId())
+                .build();
+
+        notificationService.createNotification(notificationDto);
         return PaymentMapper.mapToPaymentDto(savedPayment);
     }
 
