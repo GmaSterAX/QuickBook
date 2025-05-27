@@ -6,7 +6,6 @@ import com.softwarearchitecture.QuickBook.Mapper.NotificationMapper;
 import com.softwarearchitecture.QuickBook.Model.Notification;
 import com.softwarearchitecture.QuickBook.Repository.NotificationRepository;
 import com.softwarearchitecture.QuickBook.Service.NotificationService;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

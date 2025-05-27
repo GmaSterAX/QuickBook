@@ -5,12 +5,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import com.softwarearchitecture.QuickBook.Dto.LoginRequestDto;
+import com.softwarearchitecture.QuickBook.Dto.NotificationDto;
 import com.softwarearchitecture.QuickBook.Dto.RegisterDto;
 import com.softwarearchitecture.QuickBook.Model.User;
 import com.softwarearchitecture.QuickBook.Repository.UserRepository;
 import com.softwarearchitecture.QuickBook.Service.EmailService;
+import com.softwarearchitecture.QuickBook.Service.NotificationService;
+
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,16 +34,19 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    private final NotificationService notificationService;
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager,
                           UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
-                          EmailService emailService) {
+                          EmailService emailService,
+                          NotificationService notificationService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
+        this.notificationService = notificationService;
     }
 
     @PostMapping("/login")
@@ -70,17 +75,7 @@ public class AuthController {
 
             HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-
-            // Kullanıcı baş harfleri
-            String[] words = user.getName().trim().split("\\s+");
-            StringBuilder initials = new StringBuilder();
-            for (String word : words) {
-                if (!word.isEmpty()) {
-                    initials.append(Character.toUpperCase(word.charAt(0)));
-                }
-            }
-            session.setAttribute("userInitials", initials.toString());
-            session.setAttribute("userMail", user.getMail());
+            
 
             // Başarılı login sonrası yönlendirme
             return ResponseEntity.status(HttpStatus.FOUND)
@@ -122,7 +117,10 @@ public class AuthController {
                 "Click on the link to verify your account:\n" +
                         "http://localhost:8080/verify-email?token=" + token
         );
-
+        NotificationDto welcomeNotification = new NotificationDto(
+            "Welcome to QuickBook! Thanks for choosing us!", "Seen"
+        );
+        notificationService.createNotification(welcomeNotification);
         return ResponseEntity.ok("Account created successfully! Please verify your email.");
     }
 

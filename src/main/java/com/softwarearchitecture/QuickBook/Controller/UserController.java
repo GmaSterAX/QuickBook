@@ -1,6 +1,8 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
+import com.softwarearchitecture.QuickBook.Dto.NotificationDto;
 import com.softwarearchitecture.QuickBook.Dto.UserDto;
+import com.softwarearchitecture.QuickBook.Service.NotificationService;
 import com.softwarearchitecture.QuickBook.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +19,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, NotificationService notificationService) {
         this.userService = userService;
+        this.notificationService = notificationService;
     }
 
     // CREATE User
@@ -65,5 +69,15 @@ public class UserController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/notifications")
+    public String getUserNotifications(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userMail = authentication.getName();
+        Long userId = userService.getUserByMail(userMail).getId();
+        List<NotificationDto> notifications = notificationService.getNotificationsByUserId(userId);
+        model.addAttribute("notifications", notifications);
+        return "notifications";
     }
 }

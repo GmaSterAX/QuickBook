@@ -14,7 +14,7 @@ function goToReservation() {
       if (result.isConfirmed) {
         setTimeout(() => {
           window.location.href = '/login';
-        }, 100); // Chrome'un kafası karışmasın
+        }, 100);
       }
     });
   } else {
@@ -31,4 +31,17 @@ function logOut(){
 
 function fetchMyAccount() {
     window.location.href = "/my-account";
+}
+
+function getUserNotifications() {
+  fetch("/notifications", {
+    method: "GET"
+  })
+  .then(response => response.text())
+  .then(html => {
+    document.body.innerHTML = html; // örnek: sayfayı günceller
+  })
+  .catch(error => {
+    console.error("Hata oluştu:", error);
+  });
 }

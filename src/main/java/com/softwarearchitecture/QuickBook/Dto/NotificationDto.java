@@ -16,4 +16,8 @@ public class NotificationDto {
     private String state;
     private long user_id;
 
+    public NotificationDto(String message, String state){
+        this.message = message;
+        this.state = state;
+    }
 }

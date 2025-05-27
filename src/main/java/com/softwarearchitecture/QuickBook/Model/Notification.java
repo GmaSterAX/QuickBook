@@ -1,11 +1,9 @@
 package com.softwarearchitecture.QuickBook.Model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
 
 @Data
 @NoArgsConstructor
