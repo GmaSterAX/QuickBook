@@ -18,75 +18,33 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  const loginForm = document.querySelector('#loginForm');
-  const submitBtn = document.querySelector('#loginSubmit');
+  document.getElementById('loginSubmit').addEventListener('click', async function(event) {
+    event.preventDefault(); // formun kendi submitini engelle
 
-  if (loginForm) {
-    loginForm.addEventListener('submit', function (e) {
-      e.preventDefault(); // Sayfa yenilenmesin
+    const mail = document.getElementById('mail').value;
+    const password = document.getElementById('password').value;
 
-      // Butonu devre dışı bırak UX için
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Logging in...';
-      }
-
-      const formData = {
-        mail: document.getElementById('mail').value,
-        password: document.getElementById('password').value
-      };
-
-      fetch('/login', {
+    const response = await fetch('/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
-      })
-        .then(response => {
-          console.log('Response status:', response.status);
-
-          if (response.ok) {
-            // Başarılı login işlemi
-            return response.text();
-          } else {
-            return response.text().then(errorText => {
-              throw new Error(`Giriş başarısız oldu (${response.status}): ${errorText || 'Bilinmeyen hata'}`);
-            });
-          }
-        })
-        .then(data => {
-          if (data) {
-            console.log('Giriş başarılı:', data);
-
-            const email = document.getElementById('mail').value;
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('userMail',email);
-
-            // Ana sayfaya yönlendir
-            window.location.href = '/';
-
-            //userDropdown.style.display = "inline-block";
-            //loginButton.style.display = "none";
-          }else{
-            localStorage.setItem('isLoggedIn', 'false');
-            //userDropdown.style.display = "none";
-            //loginButton.style.display = "inline-block";
-          }
-        })
-        .catch(error => {
-          console.error('Hata:', error);
-          alert("Giriş sırasında bir hata oluştu: " + error.message);
-        })
-        .finally(() => {
-          // Butonu tekrar aktif et
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Giriş Yap';
-          }
-        });
+        body: JSON.stringify({ mail, password })
     });
-  } else {
-    console.error('Login formu bulunamadı!');
+
+    if (response.redirected) {
+        window.location.href = response.url;
+        localStorage.setItem("isLoggedIn","true");
+    } else {
+        const text = await response.text();
+        showError("Unable to login! Please control your credentails.");
+    }
+  });
+
+  function showError(message) {
+  const errorBox = document.getElementById('errorMessage');
+  errorBox.textContent = message;
+  errorBox.classList.remove('d-none');
   }
+
 });

@@ -3,4 +3,4 @@ function logOut(){
     fetch("/logout", {
         method: "POST"
     }).then(() => window.location.href = "/");
-    }
+}

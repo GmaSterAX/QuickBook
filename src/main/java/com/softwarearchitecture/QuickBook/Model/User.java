@@ -23,8 +23,7 @@ public class User implements UserDetails{
     private String mail;
     private String phone;
     private String password;
-
-
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();    

@@ -1,22 +1,18 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.softwarearchitecture.QuickBook.Service.HotelService;
 
 @Controller
 public class PageController {
 
-    HotelService hotelService;
-
-    @Autowired
-    public PageController(HotelService hotelService){
-        this.hotelService = hotelService;
-    }
-    
-    @GetMapping("/index")
+    @GetMapping("/")
     public String getHomePage(){
+        return "index";
+    }
+
+    @GetMapping("/index")
+    public String getIndexPage(){
         return "index";
     }
 

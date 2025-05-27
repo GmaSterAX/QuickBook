@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const navbar = document.getElementById('mainNavbar');
 
     const loginButton = document.querySelector('#loginButton');
-    const userDropdown = document.querySelector('#userDropdown');
+    const offCanvas = document.querySelector('#offCanvas');
 
     if (navbar) {
         window.addEventListener('scroll', () => {
@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if(localStorage.getItem('isLoggedIn')=='true'){
-        userDropdown.style.display = "inline-block";
+        offCanvas.style.display = "inline-block";
         loginButton.style.display = "none";
     }else{
-        userDropdown.style.display = "none";
+        offCanvas.style.display = "none";
         loginButton.style.display = "inline-block";
     }
 });

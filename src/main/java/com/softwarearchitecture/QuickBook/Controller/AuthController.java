@@ -8,15 +8,18 @@ import com.softwarearchitecture.QuickBook.Repository.UserRepository;
 import com.softwarearchitecture.QuickBook.Security.CustomUserDetailsService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,36 +45,31 @@ public class AuthController {
 
     // Login Endpoint
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request, Model model) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletRequest request) {
         try {
             UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(
                             loginRequestDto.getMail(), loginRequestDto.getPassword());
 
-            authenticationManager.authenticate(authToken);
+            Authentication authentication = authenticationManager.authenticate(authToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            HttpSession session = request.getSession(true);
+session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
             User user = userRepository.findByMail(loginRequestDto.getMail())
-                .orElseThrow(() -> new UsernameNotFoundException("User couldn't found"));
+                    .orElseThrow(() -> new UsernameNotFoundException("User couldn't found"));
 
-            if (user.getName() == null || user.getName().isBlank()) {
-                return "";
-            }
-            String[] words = user.getName().trim().split("\\s+");
-            StringBuilder userInitials = new StringBuilder();
-
-            for (String word : words) {
-                if (!word.isEmpty()) {
-                    userInitials.append(Character.toUpperCase(word.charAt(0)));
-                }
-            }
-            request.getSession().setAttribute("userInitials", userInitials);
-        return "/";
+            // Success: frontend yönlendirme yapacak
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header(HttpHeaders.LOCATION, "/index")
+                    .build();
         } catch (Exception e) {
-            e.printStackTrace(); // Daha fazla detay için
-            model.addAttribute("error", "Login wasn't successfull: " + e.getMessage());
-        return "login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Login failed: " + e.getMessage());
         }
     }
+
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
