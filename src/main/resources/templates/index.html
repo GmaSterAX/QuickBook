@@ -6,6 +6,7 @@
     <title>QuickBook</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="icon" href="/logos/favicon.ico" type="image/x-icon">
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <link th:href="@{/css/navbar.css}" rel="stylesheet">
     <style>
@@ -44,7 +45,7 @@
             th:style="'background-image: url(' + @{/images/istanbul.jpg} + ');'">
               <div class="overlay-text p-4">
                 <h3 class="fw-bold">İstanbul</h3>
-                <a th:href="@{/reservation}" class="btn btn-outline-light mt-2">Book Now</a>
+                <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Book Now</button>
               </div>
             </div>
           </div>
@@ -55,7 +56,7 @@
             th:style="'background-image: url(' + @{/images/ankara.webp} + ');'">
               <div class="overlay-text p-4">
                 <h3 class="fw-bold">Ankara</h3>
-                <a th:href="@{/reservation}" class="btn btn-outline-light mt-2">Book Now</a>
+                <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Book Now</button>
               </div>
             </div>
           </div>
@@ -66,7 +67,7 @@
             th:style="'background-image: url(' + @{/images/izmir.jpg} + ');'">
               <div class="overlay-text p-4">
                 <h3 class="fw-bold">İzmir</h3>
-                <a th:href="@{/reservation}" class="btn btn-outline-light mt-2">Book Now</a>
+                <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Book Now</button>
               </div>
             </div>
           </div>
@@ -80,7 +81,7 @@
                  th:style="'background-image: url(' + @{/images/antalya.webp} + ');'">
               <div class="overlay-text p-4">
                 <h3 class="fw-bold">Antalya</h3>
-                <a th:href="@{/reservation}" class="btn btn-outline-light mt-2">Book Now</a>
+                <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Book Now</button>
               </div>
             </div>
           </div>
@@ -91,7 +92,7 @@
                  th:style="'background-image: url(' + @{/images/muğla.jpg} + ');'">
               <div class="overlay-text p-4">
                 <h3 class="fw-bold">Muğla</h3>
-                <a th:href="@{/reservation}" class="btn btn-outline-light mt-2">Book Now</a>
+                <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Book Now</button>
               </div>
             </div>
           </div>
@@ -101,7 +102,7 @@
                  th:style="'background-image: url(' + @{/images/çanakkale.jpg} + ');'">
               <div class="overlay-text p-4">
                 <h3 class="fw-bold">Çanakkale</h3>
-                <a th:href="@{/reservation}" class="btn btn-outline-light mt-2">Book Now</a>
+                <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Book Now</button>
               </div>
             </div>
           </div>
@@ -112,7 +113,7 @@
                  th:style="'background-image: url(' + @{/images/aydın.jpg} + ');'">
               <div class="overlay-text p-4">
                 <h3 class="fw-bold">Aydın</h3>
-                <a th:href="@{/reservation}" class="btn btn-outline-light mt-2">Book Now</a>
+                <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Book Now</button>
               </div>
             </div>
           </div>
@@ -127,7 +128,7 @@
                  th:style="'background-image: url(' + @{/images/samsun.jpg} + ');'">
               <div class="overlay-text p-4">
                 <h3 class="fw-bold">Samsun</h3>
-                <a th:href="@{/reservation}" class="btn btn-outline-light mt-2">Book Now</a>
+                <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Book Now</button>
               </div>
             </div>
           </div>
@@ -138,7 +139,7 @@
                  th:style="'background-image: url(' + @{/images/trabzon.jpg} + ');'">
               <div class="overlay-text p-4">
                 <h3 class="fw-bold">Trabzon</h3>
-                <a th:href="@{/reservation}" class="btn btn-outline-light mt-2">Book Now</a>
+                <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Book Now</button>
               </div>
             </div>
           </div>
@@ -149,14 +150,14 @@
                  th:style="'background-image: url(' + @{/images/artvin.jpg} + ');'">
               <div class="overlay-text p-4">
                 <h3 class="fw-bold">Artvin</h3>
-                <a th:href="@{/reservation}" class="btn btn-outline-light mt-2">Book Now</a>
+                <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Book Now</button>
               </div>
             </div>
           </div>
         </div>
         <div class="text-center my-5">
           <p class="fs-4">Couldn't find what you are looking for?</p>
-          <a th:href="@{/reservation}" class="btn btn-dark px-4 py-2">Search for more</a>
+          <button class="btn btn-outline-light mt-2" onclick="goToReservation()">Search for more</button>
         </div>
       </div>
     </section>
@@ -165,8 +166,8 @@
     </section>
     <div th:replace="~{fragments :: userOffcanvas}"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/navbarScroll.js"></script>
-    <script src="/js/getUserDetails.js"></script>
-    <script src="/js/logout.js"></script>
+    <script src="/js/functions.js"></script>
 </body>
 </html>

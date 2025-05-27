@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Compare password values, not the DOM elements
     if (passwordInput.value !== confirmPasswordInput.value) {
-      error.textContent = "Şifreler uyuşmuyor!";
+      error.textContent = "Passwords don't match!";
     } else {
       error.textContent = "";
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Response status:', response.status);
         
         if (response.ok) {
-          return response.json().catch(err => {
+          return response.text().catch(err => {
             console.error('JSON parse error:', err);
             return { message: 'Register was successful but server answer could not processed' };
           });
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(data => {
         Swal.fire({
           title: 'Succesful!',
-          text: data.message,
+          text: data,
           icon: 'success',
           confirmButtonText: 'Okey',
           confirmButtonColor: '#212529',

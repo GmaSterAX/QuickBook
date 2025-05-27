@@ -7,7 +7,6 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,20 +17,22 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable()) // CSRF'yi modern şekilde devre dışı bırak
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/favicon.ico","/","/beans", "index", "about", "/login", "/register","/verify-email", "/images/**", "/logos/**","/css/**", "/js/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(sess -> sess
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                )
-                .formLogin(form -> form.disable()); // form login devre dışı
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/", "/index", "/index.html", "/about", "/login", "/register","/verify-email",
+                             "/css/**", "/js/**", "/images/**", "/logos")
+            .permitAll()
+            .anyRequest().authenticated()
+        )
+        .formLogin(form -> form
+            .loginPage("/login")
+            .defaultSuccessUrl("/index", true)
+        );
+    return http.build();
+}
 
-        return http.build();
-    }
 
     @Bean
     public UserDetailsService userDetailsService(){
@@ -45,7 +46,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager
-            (UserDetailsService userDetailsService, PasswordEncoder passwordEncoder){
+    (UserDetailsService userDetailsService, PasswordEncoder passwordEncoder){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
