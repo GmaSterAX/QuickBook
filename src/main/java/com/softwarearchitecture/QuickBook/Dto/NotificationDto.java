@@ -13,11 +13,11 @@ public class NotificationDto {
 
     private long id;
     private String message;
-    private String state;
+    private String messageTitle;
     private long user_id;
 
-    public NotificationDto(String message, String state){
+    public NotificationDto(String message, String messageTitle){
         this.message = message;
-        this.state = state;
+        this.messageTitle = messageTitle;
     }
 }

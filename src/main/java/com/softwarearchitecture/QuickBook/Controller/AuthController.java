@@ -109,6 +109,13 @@ public class AuthController {
         user.setEmailVerified(false);
         userRepository.save(user);
 
+        NotificationDto welcomeNotification = new NotificationDto();
+        welcomeNotification.setMessage("Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat beatae obcaecati fugit eveniet nam sed ab quisquam cupiditate facere. Aut, libero. Inventore accusamus excepturi quia totam ab aut quasi odio.");
+        welcomeNotification.setMessageTitle("Welcome to QuickBook!");
+        welcomeNotification.setUser_id(user.getId());
+
+        notificationService.createNotification(welcomeNotification);
+
         System.out.println("VERIFICATION LINK: http://localhost:8080/verify-email?token=" + token);
 
         emailService.sendSimpleEmail(
@@ -117,10 +124,6 @@ public class AuthController {
                 "Click on the link to verify your account:\n" +
                         "http://localhost:8080/verify-email?token=" + token
         );
-        NotificationDto welcomeNotification = new NotificationDto(
-            "Welcome to QuickBook! Thanks for choosing us!", "Seen"
-        );
-        notificationService.createNotification(welcomeNotification);
         return ResponseEntity.ok("Account created successfully! Please verify your email.");
     }
 

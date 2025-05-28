@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+import com.softwarearchitecture.QuickBook.Dto.HotelDto;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,4 +33,10 @@ public class HotelService {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
+
+
+    public HotelDto getHotelById(long h_id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getHotelById'");
+    }
 }

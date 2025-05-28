@@ -10,7 +10,7 @@ public class NotificationMapper {
         return new NotificationDto(
                 notification.getId(),
                 notification.getMessage(),
-                notification.getState(),
+                notification.getMessageTitle(),
                 notification.getUser().getId()
         );
     }
@@ -19,11 +19,11 @@ public class NotificationMapper {
         Notification notification = new Notification(
                 notificationDto.getId(),
                 notificationDto.getMessage(),
-                notificationDto.getState()
+                notificationDto.getMessageTitle()
         );
 
         User user = new User();
-        user.setId(notificationDto.getUser_id()); // sadece ID yeterli
+        user.setId(notificationDto.getUser_id()); 
         notification.setUser(user);
 
         return notification;

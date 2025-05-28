@@ -22,7 +22,7 @@
                 <a class="nav-link active" th:href="@{/index}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:href="@{/reservation}">Quick! Book!</a>
+                <a class="nav-link" href="#" onclick="goToReservation()">Quick! Book!</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" th:href="@{/about}">Who are we?</a>
@@ -114,13 +114,13 @@
           <li class="list-group-item">
             <div class="d-flex align-items-center">
               <img src="/logos/double-bed.png" alt="bed" width="20" height="20" class="me-2">
-              <button class="btn text-start w-100">Reservations</button>
+              <button class="btn text-start w-100" onclick="getUserReservations()">Reservations</button>
             </div>
           </li>
           <li class="list-group-item">
             <div class="d-flex align-items-center">
               <img src="/logos/bookmark.png" alt="bed" width="20" height="20" class="me-2">
-              <button class="btn text-start w-100">Favorites</button>
+              <button class="btn text-start w-100" onclick="getUserFavorites()">Favorites</button>
             </div>
           </li>
           <li class="list-group-item">
@@ -132,7 +132,7 @@
           <li class="list-group-item">
             <div class="d-flex align-items-center">
               <img src="/logos/wallet.png" alt="bed" width="20" height="20" class="me-2">
-              <button class="btn text-start w-100">Payments</button>
+              <button class="btn text-start w-100" onclick="getUserPayments()">Payments</button>
               </div>
           </li>
           <li class="list-group-item">

@@ -14,4 +14,6 @@ public class FavouriteDto {
     private long id;
     private long user_id;
     private long hotel_id;
+
+    
 }

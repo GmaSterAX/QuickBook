@@ -8,7 +8,5 @@ public interface HotelServiceService {
 
     List<HotelServiceDto> getByServiceName(String serviceName);
     List <HotelServiceDto> getByHotelId(long hotelId);
-
-
 }
 

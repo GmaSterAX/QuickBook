@@ -80,4 +80,19 @@ public class UserController {
         model.addAttribute("notifications", notifications);
         return "notifications";
     }
+
+    @GetMapping("/my-reservations")
+    public String getUserReservations(){
+        return "my-reservations";
+    }
+
+    @GetMapping("/my-favorites")
+    public String getUserFavorites(){
+        return "my-favorites";
+    }
+
+    @GetMapping("/my-payments")
+    public String getUserPayments(){
+        return "my-payments";
+    }
 }

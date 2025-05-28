@@ -9,7 +9,6 @@ public interface NotificationService {
     NotificationDto getNotificationById(long notificationId);
     List<NotificationDto> getNotificationsByUserId(Long userId);
     NotificationDto createNotification(NotificationDto notificationDto);
-    NotificationDto updateState(long id, NotificationDto newState);
     void deleteById(long id);
 
 

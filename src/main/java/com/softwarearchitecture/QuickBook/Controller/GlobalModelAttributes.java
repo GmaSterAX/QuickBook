@@ -17,26 +17,20 @@ public class GlobalModelAttributes {
     
     @ModelAttribute("userInitials")
     public String getUserInitials() {
-        System.out.println("=== getUserInitials ÇALIŞTI! ===");
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         
         if (auth == null || !auth.isAuthenticated() || auth.getPrincipal().equals("anonymousUser")) {
-            System.out.println("Auth problem: " + (auth == null ? "null" : auth.getPrincipal()));
             return "NA";
         }
         
         String email = auth.getName();
-        System.out.println("Auth email: " + email);
         
         User user = userRepository.findByMail(email).orElse(null);
         
         if (user == null || user.getName() == null) {
-            System.out.println("User not found or name is null");
             return "??";
         }
-        
-        System.out.println("User name: " + user.getName());
         
         String[] words = user.getName().trim().split("\\s+");
         StringBuilder userInitials = new StringBuilder();
@@ -47,7 +41,6 @@ public class GlobalModelAttributes {
         }
         
         String result = userInitials.toString();
-        System.out.println("User initials: " + result);
         return result;
     }
 }

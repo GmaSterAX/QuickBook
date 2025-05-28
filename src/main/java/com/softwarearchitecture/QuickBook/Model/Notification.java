@@ -16,17 +16,17 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String message;
-    private String state;
+    private String messageTitle;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
 
-    public Notification(long notificationId, String message, String state) {
+    public Notification(long notificationId, String message, String messageTitle) {
         this.id = notificationId;
         this.message = message;
-        this.state = state;
+        this.messageTitle = messageTitle;
     }
 }
 

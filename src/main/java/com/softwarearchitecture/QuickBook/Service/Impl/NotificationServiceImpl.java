@@ -43,17 +43,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public NotificationDto updateState(long notificationId, NotificationDto newState) {
-        Notification notification = notificationRepository.findById(notificationId).orElseThrow(
-                () -> new ResourceNotFoundException("Notification is not found with given id : " + notificationId));
-
-        notification.setState(newState.getState());
-
-        Notification updatedNotification = notificationRepository.save(notification);
-        return NotificationMapper.mapToNotificationDto(updatedNotification);
-    }
-
-    @Override
     public void deleteById(long notificationId) {
         Notification notification = notificationRepository.findById(notificationId).orElseThrow(
                 () -> new ResourceNotFoundException("Notification is not found :" + notificationId));

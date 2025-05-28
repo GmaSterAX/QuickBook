@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // mail or password is wrong
         Swal.fire({
           icon: 'error',
-          title: 'Unseccessful error',
+          title: 'error',
           text: 'Invalid mail or password.',
           confirmButtonColor: '#212529'
         });
