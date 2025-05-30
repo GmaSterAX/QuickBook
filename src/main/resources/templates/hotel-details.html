@@ -43,11 +43,86 @@
                 </div>
             </div>
         </section>
+        <section class="mt-3 pt-3">
+            <div class="container my-5">
+                <div class="card shadow-lg p-4">
+                    <div class="row">
+                        <!-- Sol taraf: Otel servisleri -->
+                        <div class="col-md-6">
+                            <h4 class="mb-3">Services</h4>
+                            <ul class="list-group">
+                                <li class="list-group-item" th:each="hotelService : ${hotelServices}" th:text="${hotelService.service_name}">Servis Adı</li>
+                            </ul>
+                        </div>
+
+                        <!-- Sağ taraf: İleride aktiviteler eklenecek -->
+                         <div class="col-md-6">
+                        <h4 class="mb-3">Activities</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item" th:each="activity : ${activities}">
+                                <strong th:text="${activity.name}">Activities</strong><br>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Oda Tipi Dropdown Menüsü -->
+<div class="container my-5">
+    <div class="card shadow-lg p-4">
+        <h4 class="mb-4">Oda Tipi & Servisleri</h4>
+
+        <!-- Basic Room -->
+        <div class="mb-3">
+            <button class="btn btn-outline-primary w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#basicRoom" aria-expanded="false" aria-controls="basicRoom">
+                Basic Oda Servisleri
+            </button>
+            <div class="collapse mt-2" id="basicRoom">
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="service : ${basicRoomServices}">
+                        <span th:text="${service.serviceName}">Servis Adı</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Lux Room -->
+        <div class="mb-3">
+            <button class="btn btn-outline-success w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#luxRoom" aria-expanded="false" aria-controls="luxRoom">
+                Lux Oda Servisleri
+            </button>
+            <div class="collapse mt-2" id="luxRoom">
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="service : ${luxRoomServices}">
+                        <span th:text="${service.serviceName}">Servis Adı</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Delux Room -->
+        <div class="mb-3">
+            <button class="btn btn-outline-warning w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#deluxRoom" aria-expanded="false" aria-controls="deluxRoom">
+                Delux Oda Servisleri
+            </button>
+            <div class="collapse mt-2" id="deluxRoom">
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="service : ${deluxRoomServices}">
+                        <span th:text="${service.serviceName}">Servis Adı</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
         <section>
             <div th:replace="~{fragments :: footer}"></div>
         </section>
         <div th:replace="~{fragments :: userOffcanvas}"></div>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="/js/functions.js"></script>
+        <script src="/js/navbarScroll.js"></script>
     </body>
 </html>

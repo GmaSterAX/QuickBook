@@ -17,6 +17,5 @@ public class RoomDto {
     private boolean reserved;
     private int capacity;
     private long h_id;
-
 }
 

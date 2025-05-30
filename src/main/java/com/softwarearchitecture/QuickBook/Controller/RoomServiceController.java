@@ -26,9 +26,15 @@ public class RoomServiceController {
         return ResponseEntity.ok(roomService);
     }
 
-    @GetMapping("room_{id}/services")
+    @GetMapping("room_{id}/service")
     public ResponseEntity<List<RoomServiceDto>> getRoomServiceByRoomId(@PathVariable("id") long id) {
         List<RoomServiceDto> roomServices = roomServiceService.getRoomServiceByRoomId(id);
         return new ResponseEntity<>(roomServices, HttpStatus.OK);
+    }
+
+    @GetMapping("/room_{roomId}/services")
+    public ResponseEntity<List<RoomServiceDto>> getRoomServiceByRoomIdAndRoomType(@PathVariable("roomId") long roomId){
+        List<RoomServiceDto> roomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(roomId,"Delux" );
+        return ResponseEntity.ok(roomServices);
     }
 }

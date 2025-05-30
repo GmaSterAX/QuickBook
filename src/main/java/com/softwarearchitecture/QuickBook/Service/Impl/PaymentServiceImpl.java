@@ -50,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
         // payment olunca bildirim gönderiyoruz
         NotificationDto notificationDto = NotificationDto.builder()
                 .message("Your reservation has been confirmed. Have a great holiday!")
-                .state("UNREAD")
+                .messageTitle("Payment")
                 .user_id(reservation.getUser().getId())
                 .build();
 

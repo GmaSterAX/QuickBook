@@ -9,7 +9,7 @@ public class RoomServiceMapper {
         return new RoomServiceDto(
                 roomService.getId(),
                 roomService.getService_name(),
-                roomService.getPrice(),
+                roomService.getRoomType(),
                 roomService.getRoom().getRoomId()
         );
     }
@@ -18,7 +18,7 @@ public class RoomServiceMapper {
         return new RoomService(
                 roomServiceDto.getId(),
                 roomServiceDto.getServiceName(),
-                roomServiceDto.getPrice()
+                roomServiceDto.getRoomType()
         );
     }
 }

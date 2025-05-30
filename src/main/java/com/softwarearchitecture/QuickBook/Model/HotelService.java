@@ -1,13 +1,7 @@
 package com.softwarearchitecture.QuickBook.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
-
-import com.softwarearchitecture.QuickBook.Dto.HotelDto;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -21,22 +15,14 @@ public class HotelService {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String serviceName;
-    private BigDecimal price;
 
 
-    public HotelService(long id, String serviceName, BigDecimal price) {
+    public HotelService(long id, String serviceName) {
         this.id =id;
         this.serviceName = serviceName;
-        this.price = price;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
-
-
-    public HotelDto getHotelById(long h_id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHotelById'");
-    }
 }

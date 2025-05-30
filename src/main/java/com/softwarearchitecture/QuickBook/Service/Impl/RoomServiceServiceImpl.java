@@ -32,7 +32,7 @@ public class RoomServiceServiceImpl implements RoomServiceService {
         // Bildirim gönderiyorum alınan roomservice'e dair
         NotificationDto notificationDto = NotificationDto.builder()
                 .message("You have received the service: " + roomService.getService_name() + ". Enjoy!")
-                .state("UNREAD")
+                .messageTitle("Room Services")
                 .user_id(roomService.getRoom().getReservation().getUser().getId()) // user'a erişim yaptım
                 .build();
 
@@ -46,6 +46,13 @@ public class RoomServiceServiceImpl implements RoomServiceService {
         return roomServicesList.stream()
                 .map(RoomServiceMapper::mapToRoomServiceDto)
                 .collect(Collectors.toList());
+    }
+    @Override
+    public List<RoomServiceDto> getRoomServiceByRoomIdAndRoomType(long roomId, String roomType) {
+        List<RoomService> roomServices = roomServiceRepository.findByRoom_RoomIdAndRoomType(roomId, roomType);
+        return roomServices.stream()
+        .map(RoomServiceMapper::mapToRoomServiceDto)
+        .collect(Collectors.toList());
     }
 
 }

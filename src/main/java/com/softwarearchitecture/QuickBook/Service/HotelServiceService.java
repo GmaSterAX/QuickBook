@@ -7,6 +7,6 @@ import java.util.List;
 public interface HotelServiceService {
 
     List<HotelServiceDto> getByServiceName(String serviceName);
-    List <HotelServiceDto> getByHotelId(long hotelId);
+    List <HotelServiceDto> getAllByHotelId(long hotelId);
 }
 

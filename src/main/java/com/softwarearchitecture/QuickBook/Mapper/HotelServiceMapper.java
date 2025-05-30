@@ -9,7 +9,6 @@ public class HotelServiceMapper {
         return new HotelServiceDto(
                 hotelService.getId(),
                 hotelService.getServiceName(),
-                hotelService.getPrice(),
                 hotelService.getHotel().getId()
         );
     }
@@ -17,10 +16,7 @@ public class HotelServiceMapper {
     public static HotelService mapToHotelService(HotelServiceDto hotelServiceDto) {
         return new HotelService(
                 hotelServiceDto.getId(),
-                hotelServiceDto.getService_name(),
-                hotelServiceDto.getPrice()
-
+                hotelServiceDto.getService_name()
         );
-
     }
 }
