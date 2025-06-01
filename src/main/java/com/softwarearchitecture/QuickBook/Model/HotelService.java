@@ -21,22 +21,14 @@ public class HotelService {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String serviceName;
-    private BigDecimal price;
 
-
-    public HotelService(long id, String serviceName, BigDecimal price) {
-        this.id =id;
+    public HotelService(long id, String serviceName) {
+        this.id = id;
         this.serviceName = serviceName;
-        this.price = price;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
-
-    public HotelDto getHotelById(long h_id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHotelById'");
-    }
 }

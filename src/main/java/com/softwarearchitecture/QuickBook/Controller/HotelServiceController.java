@@ -31,7 +31,7 @@ public class HotelServiceController {
 
     @GetMapping("/get-by-id/{id}")
     public ResponseEntity<List<HotelServiceDto>> getByHotelId(@PathVariable("id") long hotelId) {
-        List<HotelServiceDto> hotelServiceDtoList = hotelServiceService.getByHotelId(hotelId);
+        List<HotelServiceDto> hotelServiceDtoList = hotelServiceService.getAllByHotelId(hotelId);
         return ResponseEntity.ok(hotelServiceDtoList);
     }
 }

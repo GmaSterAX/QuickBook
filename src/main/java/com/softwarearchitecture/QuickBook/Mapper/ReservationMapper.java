@@ -11,8 +11,8 @@ public class ReservationMapper {
     public static ReservationDto mapToReservationDto(Reservation reservation) {
         return new ReservationDto(
                 reservation.getId(),
-                reservation.isCheck_in(),
-                reservation.isCheck_out(),
+                reservation.getStart_date(),
+                reservation.getEnd_date(),
                 reservation.getPrice(),
                 reservation.getUser().getId(),
                 reservation.getHotel().getId(),
@@ -26,16 +26,18 @@ public class ReservationMapper {
             Hotel hotel,
             Room room
     ) {
-        Reservation reservation = new Reservation(
-                dto.getId(),
-                dto.isCheck_in(),
-                dto.isCheck_out(),
-                dto.getPrice()
-        );
-        reservation.setUser(user);
-        reservation.setHotel(hotel);
-        reservation.setRoom(room);
-        room.setReservation(reservation);
+        Reservation reservation = Reservation.builder()
+                .id(dto.getId())
+                .start_date(dto.getStart_date())
+                .end_date(dto.getEnd_date())
+                .price(dto.getPrice())
+                .user(user)
+                .hotel(hotel)
+                .room(room)
+                .build();
+
+        // Tek tek atmak yerine listeye ekle
+        room.getReservation().add(reservation);
 
         return reservation;
     }

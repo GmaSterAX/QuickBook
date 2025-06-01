@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface RoomService {
     List<RoomDto> getRoomByCapacity(int capacity);
+    List<RoomDto> getRoomByHotel_Id(long hotelId);
     List<RoomDto> getRoomsByCityAndCapacity(String city, int capacity);
     List<RoomDto> getRoomsByCityHotelAndCapacity(String city, long hotelId, int capacity);
 }

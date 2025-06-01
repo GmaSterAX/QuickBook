@@ -7,8 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -21,10 +20,9 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private boolean check_in;
-    private boolean check_out;
+    private LocalDate start_date; // Rezervasyon başlangıç tarihi
+    private LocalDate end_date;   // Rezervasyon bitiş tarihi
     private BigDecimal price;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -34,19 +32,17 @@ public class Reservation {
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
 
-
-    public Reservation(long id, boolean check_in, boolean check_out, BigDecimal price) {
-        this.id = id;
-        this.check_in = check_in;
-        this.check_out = check_out;
-        this.price = price;
-    }
-
     @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
     private Payment payment;
-}
 
+    public Reservation(long id, LocalDate start_date, LocalDate end_date, BigDecimal price) {
+        this.id = id;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.price = price;
+    }
+}

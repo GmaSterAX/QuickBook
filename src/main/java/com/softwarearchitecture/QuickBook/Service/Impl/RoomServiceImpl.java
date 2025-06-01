@@ -7,6 +7,9 @@ import com.softwarearchitecture.QuickBook.Repository.RoomRepository;
 import com.softwarearchitecture.QuickBook.Service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.stream.Collector;
+
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +43,14 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<RoomDto> getRoomsByCityHotelAndCapacity(String city, long hotelId, int capacity) {
         List<Room> rooms = roomRepository.findByHotel_CityIgnoreCaseAndHotel_IdAndCapacity(city, hotelId, capacity);
+        return rooms.stream()
+                .map(RoomMapper::mapToRoomDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RoomDto> getRoomByHotel_Id(long hotelId) {
+        List<Room> rooms = roomRepository.findByHotel_Id(hotelId);
         return rooms.stream()
                 .map(RoomMapper::mapToRoomDto)
                 .collect(Collectors.toList());

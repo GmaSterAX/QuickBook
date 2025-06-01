@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -13,8 +14,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class ReservationDto {
     private long id;
-    private boolean check_in;
-    private boolean check_out;
+    private LocalDate start_date;
+    private LocalDate end_date;
     private BigDecimal price;
     private long u_id;
     private long h_id;

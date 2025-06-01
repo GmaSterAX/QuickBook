@@ -17,7 +17,6 @@ public class HotelServiceDto {
 
     private long id;
     private String service_name;
-    private BigDecimal price;
     private long hotel_id;
 
 

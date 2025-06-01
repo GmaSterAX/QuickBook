@@ -11,7 +11,8 @@ public class CommentMapper {
                 comment.getId(),
                 comment.getUser_comment(),
                 comment.getUser().getId(),
-                comment.getHotel().getId()
+                comment.getHotel().getId(),
+                comment.getUser().getName()
         );
 
     }

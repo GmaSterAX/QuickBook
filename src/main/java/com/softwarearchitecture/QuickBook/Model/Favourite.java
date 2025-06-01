@@ -24,5 +24,4 @@ public class Favourite {
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
 
-
 }

@@ -19,9 +19,11 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long roomId;
+    private int roomNumber;
     private BigDecimal price;
     private boolean reserved;
     private int capacity;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
@@ -30,11 +32,12 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoomService> roomServiceList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Reservation reservation;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservation;
 
-    public Room(long roomId, BigDecimal price, boolean reserved, int capacity) {
-        this.roomId = roomId;
+    public Room(long roomId, int roomNumber, BigDecimal price, boolean reserved, int capacity) {
+        this.roomId= roomId;
+        this.roomNumber = roomNumber;
         this.price = price;
         this.reserved = reserved;
         this.capacity = capacity;

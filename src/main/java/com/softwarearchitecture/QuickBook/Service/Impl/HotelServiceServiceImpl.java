@@ -30,7 +30,7 @@ public class HotelServiceServiceImpl implements HotelServiceService {
     }
 
     @Override
-    public List<HotelServiceDto> getByHotelId(long hotelId) {
+    public List<HotelServiceDto> getAllByHotelId(long hotelId) {
         List<HotelService> hotelService = hotelServiceRepository.findByHotel_Id(hotelId);
         return hotelService.stream()
                 .map(HotelServiceMapper::mapToHotelServiceDto)

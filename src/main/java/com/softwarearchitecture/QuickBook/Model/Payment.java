@@ -17,7 +17,6 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private BigDecimal reservation_price;
     private String payment_method;
     private boolean payment_situation;

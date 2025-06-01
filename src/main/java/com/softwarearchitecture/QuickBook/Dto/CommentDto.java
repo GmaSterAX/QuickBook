@@ -15,5 +15,6 @@ public class CommentDto {
     private String user_comment;
     private long user_id;
     private long hotel_id;
+    private String user_name;
 
 }
