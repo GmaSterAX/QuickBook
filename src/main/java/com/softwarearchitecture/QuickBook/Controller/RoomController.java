@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class RoomController {
@@ -58,10 +60,17 @@ public class RoomController {
     @GetMapping("/search")
     public String getRoomsByCityAndCapacity(@RequestParam String city, @RequestParam int capacity, Model model) {
         List<RoomDto> rooms = roomService.getRoomsByCityAndCapacity(city, capacity);
+        
+        Set<Long> addedHotelIds = new HashSet<>();
         List<HotelDto> hotels = new ArrayList<>();
-        for(RoomDto room : rooms){
-            hotels.add(hotelService.getHotelById(room.getH_id()));
+
+        for (RoomDto room : rooms) {
+            Long hotelId = room.getH_id();
+            if (addedHotelIds.add(hotelId)) { // Set'e eklenirse true döner
+                hotels.add(hotelService.getHotelById(hotelId));
+            }
         }
+
         model.addAttribute("hotels", hotels);
         return "reservation";
     }
@@ -75,16 +84,15 @@ public class RoomController {
         List<ActivityDto> activities = activityService.getAllByHotelId(id);
         model.addAttribute("activities", activities);
         List<RoomDto> rooms = roomService.getRoomByHotel_Id(id);
-        model.addAttribute("rooms", rooms);
         long[] room_ids = new long[3]; 
         for (RoomDto room : rooms) {
             List<RoomServiceDto> r_Services = roomServiceService.getRoomServiceByRoomId(room.getRoom_id());
             for(RoomServiceDto r_Service : r_Services){
-                if(r_Service.getRoomType()=="Basic")
+                if(r_Service.getRoomType().equals("Basic"))
                     room_ids[0] = r_Service.getR_id();
-                else if(r_Service.getRoomType()=="Lux")
+                else if(r_Service.getRoomType().equals("Lux"))
                     room_ids[1] = r_Service.getR_id();
-                else if(r_Service.getRoomType()=="Delux")
+                else if(r_Service.getRoomType().equals("Delux"))
                     room_ids[2] = r_Service.getR_id();
             }
         }
@@ -94,6 +102,8 @@ public class RoomController {
         model.addAttribute("luxRoomServices", luxRoomServices);
         List<RoomServiceDto> deluxRoomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(room_ids[2], "Delux");
         model.addAttribute("deluxRoomServices", deluxRoomServices);
+        
+
         return "hotel-details";
     }
 }
