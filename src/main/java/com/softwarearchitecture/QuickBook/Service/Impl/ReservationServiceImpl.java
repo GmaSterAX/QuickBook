@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,8 +55,7 @@ public class ReservationServiceImpl implements ReservationService {
         Hotel hotel = hotelRepository.findById(dto.getH_id())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
 
-        Room room = roomRepository.findById(dto.getR_id())
-                .orElseThrow(() -> new RuntimeException("Room not found"));
+        Room room = roomRepository.findById(dto.getR_id());
 
         Reservation reservation = ReservationMapper.mapToReservation(dto, user, hotel, room);
         Reservation saved = reservationRepository.save(reservation);

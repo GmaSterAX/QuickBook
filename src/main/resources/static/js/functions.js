@@ -139,3 +139,76 @@ function addToFavorites(button) {
         });
     });
 }
+
+function deleteFromFavorites(button) {
+    const hotelId = button.getAttribute("data-hotel-id");
+
+    fetch(`/removefromfavourite/${hotelId}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Removing from favorites failed.');
+        }
+        return response.text();
+    })
+    .then(data => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Removed',
+            text: 'Hotel is removed from your favorites.',
+            confirmButtonText: 'Okey',
+            confirmButtonColor: '#212529',
+            background: '#fff0f0'
+        }).then(() => {
+            // Kullanıcı onayladıktan sonra sayfayı yenile
+            location.reload();
+        });
+    })
+    .catch(error => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: error.message,
+            confirmButtonText: 'Okey'
+        });
+    });
+}
+function submitComment() {
+    const commentText = document.getElementById("userComment").value.trim();
+    const hotelId = document.querySelector("button[onclick='submitComment()']").getAttribute("data-hotel-id");
+    console.log("Hotel ID:", hotelId);
+    
+    if (!commentText) {
+        alert("Comment cannot be empty.");
+        return;
+    }
+
+    fetch("/add-new-comment", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            hotelId: hotelId,
+            user_comment: commentText
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Failed to submit comment.");
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Başarı mesajı gösterilebilir (istersen)
+        document.getElementById("commentSuccess").style.display = "block";
+        document.getElementById("userComment").value = "";
+
+        // Sayfayı yenile
+        window.location.reload();
+    })
+    .catch(error => {
+        alert("An error occurred: " + error.message);
+    });
+}
