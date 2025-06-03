@@ -1,11 +1,12 @@
 package com.softwarearchitecture.QuickBook.Model;
 
+
+import java.util.Date;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -18,8 +19,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String user_comment;
-
-    //TODO:create comment, findbyhotelid,findbyuserıd,findAll
+    private Date created_at;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
@@ -30,9 +30,14 @@ public class Comment {
     private User user;
 
 
-    public Comment(long id, String userComment) {
-
+    public Comment(long id, String userComment, Date created_at) {
         this.id = id;
         this.user_comment = userComment;
+        this.created_at = created_at;
+    }
+
+    @PrePersist
+    protected void onCreate(){
+        this.created_at = new Date(); // tarihi atamak için
     }
 }

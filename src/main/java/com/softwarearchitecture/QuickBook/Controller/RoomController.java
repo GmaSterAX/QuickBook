@@ -1,12 +1,13 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
-
 import com.softwarearchitecture.QuickBook.Dto.ActivityDto;
+import com.softwarearchitecture.QuickBook.Dto.CommentDto;
 import com.softwarearchitecture.QuickBook.Dto.HotelDto;
 import com.softwarearchitecture.QuickBook.Dto.HotelServiceDto;
 import com.softwarearchitecture.QuickBook.Dto.RoomDto;
 import com.softwarearchitecture.QuickBook.Dto.RoomServiceDto;
 import com.softwarearchitecture.QuickBook.Service.ActivityService;
+import com.softwarearchitecture.QuickBook.Service.CommentService;
 import com.softwarearchitecture.QuickBook.Service.HotelService;
 import com.softwarearchitecture.QuickBook.Service.HotelServiceService;
 import com.softwarearchitecture.QuickBook.Service.RoomService;
@@ -32,31 +33,34 @@ public class RoomController {
     private HotelServiceService hotelServiceService;
     private ActivityService activityService;
     private RoomServiceService roomServiceService;
-
+    private CommentService commentService;
 
     @Autowired
     public RoomController(RoomService roomService,
                           HotelService hotelService,
                           HotelServiceService hotelServiceService,
                           ActivityService activityService,
-                          RoomServiceService roomServiceService) {
+                          RoomServiceService roomServiceService,
+                          CommentService commentService){
         this.roomService = roomService;
         this.hotelService = hotelService;
         this.hotelServiceService = hotelServiceService;
         this.activityService = activityService;
         this.roomServiceService = roomServiceService;
+        this.commentService = commentService;
     }
-        @GetMapping("room-get_{capacity}")
-        public ResponseEntity<List<RoomDto>> getRoomByCapacity(@PathVariable("capacity") int capacity){
-            List<RoomDto> rooms = roomService.getRoomByCapacity(capacity);
-            return ResponseEntity.ok(rooms);
-        }
 
-        @GetMapping("search/{city}/{hotel_id}/rooms-{capacity}")
-        public ResponseEntity<List<RoomDto>> getRoomsByCityAndHotel_IdAndCapacity(@PathVariable("city") String city, @PathVariable("hotel_id") long hotel_id, @PathVariable("capacity") int capacity){
-            List<RoomDto> rooms = roomService.getRoomsByCityHotelAndCapacity(city, hotel_id, capacity);
-            return ResponseEntity.ok(rooms);
-        }
+    @GetMapping("room-get_{capacity}")
+    public ResponseEntity<List<RoomDto>> getRoomByCapacity(@PathVariable("capacity") int capacity){
+        List<RoomDto> rooms = roomService.getRoomByCapacity(capacity);
+        return ResponseEntity.ok(rooms);
+    }
+
+    @GetMapping("search/{city}/{hotel_id}/rooms-{capacity}")
+    public ResponseEntity<List<RoomDto>> getRoomsByCityAndHotel_IdAndCapacity(@PathVariable("city") String city, @PathVariable("hotel_id") long hotel_id, @PathVariable("capacity") int capacity){
+        List<RoomDto> rooms = roomService.getRoomsByCityHotelAndCapacity(city, hotel_id, capacity);
+        return ResponseEntity.ok(rooms);
+    }
 
     @GetMapping("/search")
     public String getRoomsByCityAndCapacity(@RequestParam String city, @RequestParam int capacity, Model model) {
@@ -67,7 +71,7 @@ public class RoomController {
 
         for (RoomDto room : rooms) {
             Long hotelId = room.getH_id();
-            if (addedHotelIds.add(hotelId)) {
+            if (addedHotelIds.add(hotelId)) { // Set'e eklenirse true döner
                 hotels.add(hotelService.getHotelById(hotelId));
             }
         }
@@ -76,35 +80,52 @@ public class RoomController {
         return "reservation";
     }
 
-
     @GetMapping("/hotel/{id}")
-        public String getHotelDetails(@PathVariable("id") long id, Model model){
-            HotelDto hotel = hotelService.getHotelById(id);
-            model.addAttribute("hotel",hotel);
-            List<HotelServiceDto> hotelServices = hotelServiceService.getAllByHotelId(id);
-            model.addAttribute("hotelServices",hotelServices);
-            List<ActivityDto> activities = activityService.getAllByHotelId(id);
-            model.addAttribute("activities", activities);
-            List<RoomDto> rooms = roomService.getRoomByHotel_Id(id);
-            model.addAttribute("rooms", rooms);
-            long[] room_ids = new long[3];
-            for (RoomDto room : rooms) {
-                List<RoomServiceDto> r_Services = roomServiceService.getRoomServiceByRoomId(room.getRoom_id());
-                for(RoomServiceDto r_Service : r_Services){
-                    if(r_Service.getRoomType()=="Basic")
-                        room_ids[0] = r_Service.getR_id();
-                    else if(r_Service.getRoomType()=="Lux")
-                        room_ids[1] = r_Service.getR_id();
-                    else if(r_Service.getRoomType()=="Delux")
-                        room_ids[2] = r_Service.getR_id();
-                }
+    public String getHotelDetails(@PathVariable("id") long id, Model model){
+        HotelDto hotel = hotelService.getHotelById(id);
+        model.addAttribute("hotel",hotel);
+        List<HotelServiceDto> hotelServices = hotelServiceService.getAllByHotelId(id);
+        model.addAttribute("hotelServices",hotelServices);
+        List<ActivityDto> activities = activityService.getAllByHotelId(id);
+        model.addAttribute("activities", activities);
+        List<RoomDto> rooms = roomService.getRoomByHotel_Id(id);
+        long[] room_ids = new long[3];
+        for (RoomDto room : rooms) {
+            List<RoomServiceDto> r_Services = roomServiceService.getRoomServiceByRoomId(room.getRoom_id());
+            for(RoomServiceDto r_Service : r_Services){
+                if(r_Service.getRoomType().equals("Basic"))
+                    room_ids[0] = r_Service.getR_id();
+                else if(r_Service.getRoomType().equals("Lux"))
+                    room_ids[1] = r_Service.getR_id();
+                else if(r_Service.getRoomType().equals("Delux"))
+                    room_ids[2] = r_Service.getR_id();
             }
-            List<RoomServiceDto> basicRoomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(room_ids[0], "Basic");
-            model.addAttribute("basicRoomServices", basicRoomServices);
-            List<RoomServiceDto> luxRoomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(room_ids[1], "Lux");
-            model.addAttribute("luxRoomServices", luxRoomServices);
-            List<RoomServiceDto> deluxRoomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(room_ids[2], "Delux");
-            model.addAttribute("deluxRoomServices", deluxRoomServices);
-            return "hotel-details";
         }
+        List<RoomServiceDto> basicRoomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(room_ids[0], "Basic");
+        model.addAttribute("basicRoomServices", basicRoomServices);
+        List<RoomServiceDto> luxRoomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(room_ids[1], "Lux");
+        model.addAttribute("luxRoomServices", luxRoomServices);
+        List<RoomServiceDto> deluxRoomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(room_ids[2], "Delux");
+        model.addAttribute("deluxRoomServices", deluxRoomServices);
+
+        RoomDto basicRoom = roomService.getRoomById(room_ids[0]);
+        RoomDto luxRoom = roomService.getRoomById(room_ids[1]);
+        RoomDto deluxRoom = roomService.getRoomById(room_ids[2]);
+
+        model.addAttribute("basicPrice", basicRoom);
+        model.addAttribute("luxPrice", luxRoom);
+        model.addAttribute("deluxPrice", deluxRoom);
+
+        try {
+            List<CommentDto> comments = commentService.getCommentByHotelId(id);
+            for (CommentDto comment : comments) {
+                System.out.println(comment.getUser_comment());
+            }
+            model.addAttribute("comments", comments);
+        } catch (Exception e) {
+            e.printStackTrace(); // bu terminalde kesin gösterir
+        }
+        return "hotel-details";
+    }
+
 }

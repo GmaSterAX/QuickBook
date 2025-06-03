@@ -1,9 +1,7 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
-import com.softwarearchitecture.QuickBook.Dto.FavouriteDto;
 import com.softwarearchitecture.QuickBook.Dto.NotificationDto;
 import com.softwarearchitecture.QuickBook.Dto.UserDto;
-import com.softwarearchitecture.QuickBook.Service.FavouriteService;
 import com.softwarearchitecture.QuickBook.Service.NotificationService;
 import com.softwarearchitecture.QuickBook.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +20,12 @@ public class UserController {
 
     private final UserService userService;
     private final NotificationService notificationService;
-    private final FavouriteService favouriteService;
 
     @Autowired
-    public UserController(UserService userService, NotificationService notificationService, FavouriteService favouriteService) {
+    public UserController(UserService userService,
+                          NotificationService notificationService) {
         this.userService = userService;
         this.notificationService = notificationService;
-        this.favouriteService = favouriteService;
     }
 
     // CREATE User
@@ -88,17 +85,6 @@ public class UserController {
     @GetMapping("/my-reservations")
     public String getUserReservations(){
         return "my-reservations";
-    }
-
-    @GetMapping("/my-favorites")
-    public String getUserFavorites(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userMail = authentication.getName();
-        Long userId = userService.getUserByMail(userMail).getId();
-        List<FavouriteDto> favorites = favouriteService.getFavouritesByUserId(userId);
-        model.addAttribute("favorites", favorites);
-
-        return "my-favorites";
     }
 
     @GetMapping("/my-payments")

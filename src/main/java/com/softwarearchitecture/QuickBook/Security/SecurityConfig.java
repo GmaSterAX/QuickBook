@@ -20,16 +20,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // CSRF'yi modern şekilde devre dışı bırak
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/**").permitAll()
-                //"/favicon.ico","/","/beans", "/verify-email", "index", "about", "/login", "/register", "/images/**", "/logos/**","/css/**", "/js/**"
-                .anyRequest().authenticated()
-            )
-            .sessionManagement(sess -> sess
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-            )
-            .formLogin(form -> form.disable()); // form login devre dışı
+                .csrf(csrf -> csrf.disable()) // CSRF'yi modern şekilde devre dışı bırak
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/**").permitAll()
+                        //"/favicon.ico","/","/beans", "/verify-email", "index", "about", "/login", "/register", "/images/**", "/logos/**","/css/**", "/js/**"
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(sess -> sess
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+                .formLogin(form -> form.disable()); // form login devre dışı
 
         return http.build();
     }
@@ -46,7 +46,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager
-    (UserDetailsService userDetailsService, PasswordEncoder passwordEncoder){
+            (UserDetailsService userDetailsService, PasswordEncoder passwordEncoder){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);

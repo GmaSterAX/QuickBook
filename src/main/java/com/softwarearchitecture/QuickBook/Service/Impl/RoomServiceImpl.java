@@ -7,9 +7,6 @@ import com.softwarearchitecture.QuickBook.Repository.RoomRepository;
 import com.softwarearchitecture.QuickBook.Service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.stream.Collector;
-
-
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,5 +53,10 @@ public class RoomServiceImpl implements RoomService {
                 .collect(Collectors.toList());
     }
 
-
+    @Override
+    public RoomDto getRoomById(long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Room not found with id: " + roomId));
+        return RoomMapper.mapToRoomDto(room);
+    }
 }

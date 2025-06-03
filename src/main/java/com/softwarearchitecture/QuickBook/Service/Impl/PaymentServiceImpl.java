@@ -44,12 +44,13 @@ public class PaymentServiceImpl implements PaymentService {
             throw new RuntimeException("Payment already exists for this reservation");
         }
 
-        Payment payment = PaymentMapper.mapToPayment(paymentDto);
+        Payment payment = PaymentMapper.mapToPayment(paymentDto, reservation);
         Payment savedPayment = paymentRepository.save(payment);
 
         // payment olunca bildirim gönderiyoruz
         NotificationDto notificationDto = NotificationDto.builder()
                 .message("Your reservation has been confirmed. Have a great holiday!")
+                .messageTitle("Payment")
                 .user_id(reservation.getUser().getId())
                 .build();
 
@@ -91,7 +92,6 @@ public class PaymentServiceImpl implements PaymentService {
             throw new RuntimeException("Reservation not found with id: " + paymentDto.getReservation_id());
         }
 
-        existingPayment.setReservation_price(paymentDto.getReservation_price());
         existingPayment.setPayment_method(paymentDto.getPayment_method());
         existingPayment.setPayment_situation(paymentDto.isPayment_situation());
         existingPayment.setReservation(reservation);

@@ -10,6 +10,7 @@ public class CommentMapper {
         return new CommentDto(
                 comment.getId(),
                 comment.getUser_comment(),
+                comment.getCreated_at(),
                 comment.getUser().getId(),
                 comment.getHotel().getId(),
                 comment.getUser().getName()
@@ -19,7 +20,8 @@ public class CommentMapper {
     public static Comment mapToComment(CommentDto commentDto){
         return new Comment(
                 commentDto.getId(),
-                commentDto.getUser_comment()
+                commentDto.getUser_comment(),
+                commentDto.getCreated_at()
         );
 
 

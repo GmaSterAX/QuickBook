@@ -2,31 +2,78 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Bildirimlerim</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}"/> <!-- stil dosyan varsa -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorite Hotels</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+      <link rel="icon" href="/logos/favicon.ico" type="image/x-icon">
+      <link th:href="@{/css/navbar.css}" rel="stylesheet">
+      <style>
+        html {
+          scroll-behavior: smooth;
+        }
+      </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="mb-4 text-center">📬 Bildirimlerim</h2>
-
-    <div th:if="${#lists.isEmpty(favorites)}" class="alert alert-info text-center">
-        Şu anda görüntülenecek bir bildiriminiz yok.
-    </div>
-
-    <div class="row row-cols-1 row-cols-md-2 g-4" th:if="${!#lists.isEmpty(favorites)}">
-        <div class="col" th:each="favorite : ${favorites}">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${favorite.title}">Bildirim Başlığı</h5>
-                    <p class="card-text" th:text="${favorite.message}">Bildirim içeriği buraya gelecek.</p>
+    <section>
+        <div th:replace="~{fragments :: navbar}"></div>
+    </section>
+    <section class="container my-5 pt-5">
+        <div th:each="hotel : ${hotels}" class="card mb-4 shadow-sm" style="height: 250px; overflow: hidden;">
+            <div class="row g-0 h-100">
+            <!-- Sol taraf: Otel resmi -->
+            <div class="col-md-4 h-100">
+                <div class="h-100" style="overflow: hidden;">
+                <img th:src="${hotel.img_url}"
+                    class="img-fluid w-100 h-100"
+                    style="object-fit: cover; object-position: center;"
+                    alt="Hotel Image">
                 </div>
             </div>
+            
+            <!-- Sağ taraf: Otel bilgileri -->
+            <div class="col-md-8 d-flex">
+                <div class="card-body d-flex flex-column justify-content-between w-100">
+                
+                <!-- Üst Bilgiler -->
+                <div>
+                    <h5 class="card-title" th:text="${hotel.name}">Hotel Name</h5>
+                    <p class="card-text text-muted mb-1" th:text="${hotel.address}">Hotel Address</p>
+                    <p class="card-text">
+                    <small class="text-warning">★</small>
+                    <span th:text="${hotel.point}">4.5</span>
+                    </p>
+                </div>
+                
+                <!-- Alt Bilgiler -->
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div class="d-flex justify-content-end w-100">
+                        <button 
+                        class="btn btn-outline-dark btn-md" 
+                        th:data-hotel-id="${hotel.id}" 
+                        onclick="getHotelDetails(this)">
+                        Book
+                    </button>
+                    <button 
+                        class="btn btn-outline-danger btn-md ms-2" 
+                        th:data-hotel-id="${hotel.id}" 
+                        onclick="deleteFromFavorites(this)">
+                        Remove
+                    </button>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
         </div>
-    </div>
-</div>
-
-<!-- Bootstrap JS (isteğe bağlı) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </section>
+    <section>
+        <div th:replace="~{fragments :: footer}"></div>
+    </section>
+    <div th:replace="~{fragments :: userOffcanvas}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/navbarScroll.js"></script>
+    <script src="/js/functions.js"></script>
 </body>
 </html>

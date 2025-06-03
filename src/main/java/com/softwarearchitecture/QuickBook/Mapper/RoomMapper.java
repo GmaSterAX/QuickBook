@@ -8,7 +8,6 @@ public class RoomMapper {
     public static RoomDto mapToRoomDto(Room room){
         return new RoomDto(
                 room.getRoomId(),
-                room.getRoomNumber(),
                 room.getPrice(),
                 room.isReserved(),
                 room.getCapacity(),
@@ -19,7 +18,6 @@ public class RoomMapper {
     public static Room mapToRoom(RoomDto roomDto){
         return new Room(
                 roomDto.getRoom_id(),
-                roomDto.getRoomNumber(),
                 roomDto.getPrice(),
                 roomDto.isReserved(),
                 roomDto.getCapacity()

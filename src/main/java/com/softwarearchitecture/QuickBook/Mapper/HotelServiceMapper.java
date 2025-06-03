@@ -17,8 +17,6 @@ public class HotelServiceMapper {
         return new HotelService(
                 hotelServiceDto.getId(),
                 hotelServiceDto.getService_name()
-
         );
-
     }
 }

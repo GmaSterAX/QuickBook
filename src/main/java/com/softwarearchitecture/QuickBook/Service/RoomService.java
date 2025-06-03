@@ -9,4 +9,5 @@ public interface RoomService {
     List<RoomDto> getRoomByHotel_Id(long hotelId);
     List<RoomDto> getRoomsByCityAndCapacity(String city, int capacity);
     List<RoomDto> getRoomsByCityHotelAndCapacity(String city, long hotelId, int capacity);
+    RoomDto getRoomById(long roomId);
 }

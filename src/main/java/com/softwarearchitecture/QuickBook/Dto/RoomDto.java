@@ -13,11 +13,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class RoomDto {
     private long room_id;
-    private int roomNumber;
     private BigDecimal price;
     private boolean reserved;
     private int capacity;
     private long h_id;
-
 }
 

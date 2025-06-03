@@ -20,7 +20,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*; 
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 
 
@@ -75,7 +76,7 @@ public class AuthController {
 
             HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-            
+
 
             // Başarılı login sonrası yönlendirme
             return ResponseEntity.status(HttpStatus.FOUND)
@@ -129,16 +130,19 @@ public class AuthController {
 
     // ✅ Email doğrulama linki
     @GetMapping("/verify-email")
-    @ResponseBody
-    public ResponseEntity<String> verifyEmail(@RequestParam("token") String token) {
+    public String verifyEmail(@RequestParam("token") String token, Model model) {
         if (token == null || token.isEmpty()) {
-            return ResponseEntity.badRequest().body("Token is required.");
+            model.addAttribute("message", "Token is required.");
+            model.addAttribute("success", false);
+            return "email-verification";
         }
 
         Optional<User> optionalUser = userRepository.findByVerificationToken(token);
 
         if (optionalUser.isEmpty()) {
-            return ResponseEntity.badRequest().body("Invalid or expired token.");
+            model.addAttribute("message", "Invalid or expired token.");
+            model.addAttribute("success", false);
+            return "email-verification";
         }
 
         User user = optionalUser.get();
@@ -146,6 +150,9 @@ public class AuthController {
         user.setVerificationToken(null);
         userRepository.save(user);
 
-        return ResponseEntity.ok("Email verified successfully!");
+        model.addAttribute("message", "Email verified successfully!");
+        model.addAttribute("success", true);
+        return "email-verification";
     }
+
 }

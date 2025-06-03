@@ -3,7 +3,6 @@ package com.softwarearchitecture.QuickBook.Service.Impl;
 import com.softwarearchitecture.QuickBook.Dto.NotificationDto;
 import com.softwarearchitecture.QuickBook.Dto.RoomServiceDto;
 import com.softwarearchitecture.QuickBook.Mapper.RoomServiceMapper;
-import com.softwarearchitecture.QuickBook.Model.Reservation;
 import com.softwarearchitecture.QuickBook.Model.RoomService;
 import com.softwarearchitecture.QuickBook.Repository.RoomServiceRepository;
 import com.softwarearchitecture.QuickBook.Service.NotificationService;
@@ -11,7 +10,6 @@ import com.softwarearchitecture.QuickBook.Service.RoomServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,33 +25,21 @@ public class RoomServiceServiceImpl implements RoomServiceService {
         this.roomServiceRepository = roomServiceRepository;
         this.notificationService = notificationService;
     }
+
     @Override
     public RoomServiceDto getRoomServiceById(long roomServiceId) {
         RoomService roomService = roomServiceRepository.findById(roomServiceId);
 
-        LocalDate today = LocalDate.now();
-
-        // Aktif rezervasyonu stream ile bul
-        Reservation activeReservation = roomService.getRoom().getReservation().stream()
-                .filter(res -> !res.getStart_date().isAfter(today) && !res.getEnd_date().isBefore(today))
-                .findFirst()
-                .orElse(null);
-
-        if (activeReservation != null) {
-            NotificationDto notificationDto = NotificationDto.builder()
-                    .message("You have received the service: " + roomService.getService_name() + ". Enjoy!")
-                    .messageTitle("Room Services")
-                    .user_id(activeReservation.getUser().getId())
-                    .build();
-
-            notificationService.createNotification(notificationDto);
-        }
+        // Artık doğrudan reservation'a erişebilirsiniz
+        NotificationDto notificationDto = NotificationDto.builder()
+                .message("You have received the service: " + roomService.getService_name() + ". Enjoy!")
+                .messageTitle("Room Services")
+                .user_id(roomService.getReservation().getUser().getId()) // Artık çalışacak
+                .build();
+        notificationService.createNotification(notificationDto);
 
         return RoomServiceMapper.mapToRoomServiceDto(roomService);
     }
-
-
-
 
     @Override
     public List<RoomServiceDto> getRoomServiceByRoomId(long roomId) {
@@ -62,7 +48,6 @@ public class RoomServiceServiceImpl implements RoomServiceService {
                 .map(RoomServiceMapper::mapToRoomServiceDto)
                 .collect(Collectors.toList());
     }
-
     @Override
     public List<RoomServiceDto> getRoomServiceByRoomIdAndRoomType(long roomId, String roomType) {
         List<RoomService> roomServices = roomServiceRepository.findByRoom_RoomIdAndRoomType(roomId, roomType);
@@ -70,5 +55,7 @@ public class RoomServiceServiceImpl implements RoomServiceService {
                 .map(RoomServiceMapper::mapToRoomServiceDto)
                 .collect(Collectors.toList());
     }
+
+
 
 }

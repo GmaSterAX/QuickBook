@@ -15,4 +15,5 @@ public class RoomServiceDto {
     private String serviceName;
     private String roomType;
     private long r_id;
+
 }

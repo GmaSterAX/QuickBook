@@ -19,7 +19,6 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long roomId;
-    private int roomNumber;
     private BigDecimal price;
     private boolean reserved;
     private int capacity;
@@ -35,9 +34,8 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservation;
 
-    public Room(long roomId, int roomNumber, BigDecimal price, boolean reserved, int capacity) {
+    public Room(long roomId, BigDecimal price, boolean reserved, int capacity) {
         this.roomId= roomId;
-        this.roomNumber = roomNumber;
         this.price = price;
         this.reserved = reserved;
         this.capacity = capacity;

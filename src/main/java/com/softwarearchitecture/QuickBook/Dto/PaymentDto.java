@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PaymentDto {
     private long id;
-    private BigDecimal reservation_price;
     private String payment_method;
     private boolean payment_situation;
     private long reservation_id;
+    private BigDecimal reservation_price;
 
 
 }
