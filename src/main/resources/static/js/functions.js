@@ -212,3 +212,58 @@ function submitComment() {
         alert("An error occurred: " + error.message);
     });
 }
+
+async function bookRoom(button) {
+    const hotelId = document.querySelector('button[onclick*="addToFavorites"]').getAttribute("data-hotel-id");
+    const roomId = button.getAttribute("data-room-id");
+    const price = button.getAttribute("data-room-price");
+
+    const startDate = localStorage.getItem("checkIn");
+    const endDate = localStorage.getItem("checkOut");
+
+    const reservation = {
+        h_id: hotelId,
+        r_id: roomId,
+        price: price,
+        start_date: startDate,
+        end_date: endDate
+        // u_id gönderilmiyor
+    };
+    console.log("hotelID:", hotelId);
+    console.log("Room ID:", roomId); // bu sana ne döndürüyor?
+    console.log("price:", price);
+    console.log("startDate:", startDate);
+    console.log("endDate:", endDate);
+
+
+    try {
+        const response = await fetch("/reservation/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(reservation)
+        });
+
+        if (response.ok) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Başarılı!',
+                text: 'Rezervasyon başarıyla oluşturuldu.'
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Hata!',
+                text: 'Rezervasyon oluşturulamadı.'
+            });
+        }
+    } catch (err) {
+        console.error(err);
+        Swal.fire({
+            icon: 'error',
+            title: 'Sunucu hatası!',
+            text: 'Bir şeyler ters gitti.'
+        });
+    }
+}

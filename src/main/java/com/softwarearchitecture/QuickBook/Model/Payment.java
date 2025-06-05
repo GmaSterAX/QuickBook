@@ -17,13 +17,9 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String payment_method;
     private boolean payment_situation;
 
     @OneToOne
     @JoinColumn(name = "reservation_id", unique = true)
     private Reservation reservation;
-
-
-
 }

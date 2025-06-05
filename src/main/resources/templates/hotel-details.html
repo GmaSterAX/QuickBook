@@ -95,15 +95,18 @@
                                 Basic Room
                             </button>
                         </h2>
-                        <div id="collapseBasic" class="accordion-collapse collapse">
+                        <div id="collapseBasic" class="accordion-collapse collapse" data-bs-parent="#roomServicesAccordion">
                             <div class="accordion-body d-flex justify-content-between align-items-start">
                                 <ul class="list-group w-75">
                                     <li class="list-group-item text-muted" th:if="${#lists.isEmpty(basicRoomServices)}">Bilgi yok</li>
                                     <li class="list-group-item" th:each="s : ${basicRoomServices}" th:text="${s.serviceName}">Servis</li>
                                 </ul>
                                 <div class="ms-3 d-flex flex-column">
-                                    <span th:text="'₺' + ${basicPrice.price}" class="mb-1">₺Fiyat</span>
-                                    <button class="btn btn-dark">Book</button>
+                                    <span th:text="'₺' + ${basicRoom.price}" class="mb-1">₺Fiyat</span>
+                                    <button class="btn btn-dark"
+                                            onclick="bookRoom(this)"
+                                            th:data-room-id="${basicRoomId}"
+                                            th:data-room-price="${basicRoom.price}">Book</button>
                                 </div>
                             </div>
                         </div>
@@ -116,15 +119,18 @@
                                 Lux Room
                             </button>
                         </h2>
-                        <div id="collapseLux" class="accordion-collapse collapse">
+                        <div id="collapseLux" class="accordion-collapse collapse" data-bs-parent="#roomServicesAccordion">
                             <div class="accordion-body d-flex justify-content-between align-items-start">
                                 <ul class="list-group w-75">
                                     <li class="list-group-item text-muted" th:if="${#lists.isEmpty(luxRoomServices)}">Bilgi yok</li>
                                     <li class="list-group-item" th:each="s : ${luxRoomServices}" th:text="${s.serviceName}">Servis</li>
                                 </ul>
                                 <div class="ms-3 d-flex flex-column">
-                                    <span th:text="'₺' + ${luxPrice.price}" class="mb-1">₺Fiyat</span>
-                                    <button class="btn btn-dark">Book</button>
+                                    <span th:text="'₺' + ${luxRoom.price}" class="mb-1">₺Fiyat</span>
+                                    <button class="btn btn-dark"
+                                            onclick="bookRoom(this)"
+                                            th:data-room-id="${luxRoomId}"
+                                            th:data-room-price="${luxRoom.price}">Book</button>
                                 </div>
                             </div>
                         </div>
@@ -137,21 +143,23 @@
                                 Delux Room
                             </button>
                         </h2>
-                        <div id="collapseDelux" class="accordion-collapse collapse">
+                        <div id="collapseDelux" class="accordion-collapse collapse" data-bs-parent="#roomServicesAccordion">
                             <div class="accordion-body d-flex justify-content-between align-items-start">
                                 <ul class="list-group w-75">
                                     <li class="list-group-item text-muted" th:if="${#lists.isEmpty(deluxRoomServices)}">Bilgi yok</li>
                                     <li class="list-group-item" th:each="s : ${deluxRoomServices}" th:text="${s.serviceName}">Servis</li>
                                 </ul>
                                 <div class="ms-3 d-flex flex-column">
-                                    <span th:text="'₺' + ${deluxPrice.price}" class="mb-1">₺Fiyat</span>
-                                    <button class="btn btn-dark mb-2">Book</button>
+                                    <span th:text="'₺' + ${deluxRoom.price}" class="mb-1">₺Fiyat</span>
+                                    <button class="btn btn-dark"
+                                            onclick="bookRoom(this)"
+                                            th:data-room-id="${deluxRoomId}"
+                                            th:data-room-price="${deluxRoom.price}">Book</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- Kullanıcı Yorumları -->
                 <div class="container mt-5">
                     <h4 class="mb-4">User Comments</h4>

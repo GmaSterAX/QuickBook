@@ -1,9 +1,12 @@
 package com.softwarearchitecture.QuickBook.Controller; // Controller klasöründen çıkar
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.softwarearchitecture.QuickBook.Model.User;
@@ -42,5 +45,12 @@ public class GlobalModelAttributes {
         
         String result = userInitials.toString();
         return result;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleAllExceptions(Exception ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                             .body("Global hata: " + ex.getMessage());
     }
 }

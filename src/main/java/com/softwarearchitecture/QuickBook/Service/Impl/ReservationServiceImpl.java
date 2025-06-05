@@ -56,7 +56,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public ReservationDto createReservation(ReservationDto dto) {
+    public ReservationDto saveReservation(ReservationDto dto) {
         User user = userRepository.findById(dto.getU_id())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 

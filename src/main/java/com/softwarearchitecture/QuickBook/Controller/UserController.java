@@ -82,11 +82,6 @@ public class UserController {
         return "notifications";
     }
 
-    @GetMapping("/my-reservations")
-    public String getUserReservations(){
-        return "my-reservations";
-    }
-
     @GetMapping("/my-payments")
     public String getUserPayments(){
         return "my-payments";

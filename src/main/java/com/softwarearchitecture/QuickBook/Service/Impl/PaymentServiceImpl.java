@@ -92,7 +92,6 @@ public class PaymentServiceImpl implements PaymentService {
             throw new RuntimeException("Reservation not found with id: " + paymentDto.getReservation_id());
         }
 
-        existingPayment.setPayment_method(paymentDto.getPayment_method());
         existingPayment.setPayment_situation(paymentDto.isPayment_situation());
         existingPayment.setReservation(reservation);
 

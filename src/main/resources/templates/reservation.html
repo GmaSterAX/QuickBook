@@ -48,9 +48,8 @@
               <option value="4">4+</option>
             </select>
           </div>
-
           <div class="col-md-3">
-            <button type="submit" class="btn btn-dark w-100">Search</button>
+            <button type="submit" class="btn btn-dark w-100" onclick="searchHotels()">Search</button>
           </div>
         </div>
       </form>
@@ -108,36 +107,50 @@
     <script src="/js/navbarScroll.js"></script>
     <script src="/js/functions.js"></script>
     <script>
-    document.getElementById('hotelReservationSearchForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    const formData = new FormData(this);
-    const city = formData.get('city');
-    const guests = formData.get('guests');
-    
-    // GET isteği ile URL parametreleri olarak gönder
-    fetch(`/search?city=${encodeURIComponent(city)}&capacity=${guests}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'text/html'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Sunucudan beklenmeyen yanıt');
-        }
-        return response.text(); // HTML döndüğü için text()
-    })
-    .then(html => {
-        // HTML'i sayfaya yerleştir veya yeni sayfaya yönlendir
-        //document.body.innerHTML = html;
-        // veya
-        window.location.href = `/search?city=${encodeURIComponent(city)}&capacity=${guests}`;
-    })
-    .catch(error => {
-        console.error('Hata:', error);
-    });
-});
+      document.getElementById('hotelReservationSearchForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const formData = new FormData(this);
+      const city = formData.get('city');
+      const guests = formData.get('guests');
+      const checkIn = formData.get('checkIn');
+      const checkOut = formData.get('checkOut');
+
+      const formattedCheckIn = formatDate(checkIn);
+      const formattedCheckOut = formatDate(checkOut);
+
+      localStorage.setItem('checkIn', formattedCheckIn);
+      localStorage.setItem('checkOut', formattedCheckOut);
+      
+      // GET isteği ile URL parametreleri olarak gönder
+      fetch(`/search?city=${encodeURIComponent(city)}&capacity=${guests}`, {
+          method: 'GET',
+          headers: {
+              'Accept': 'text/html'
+          }
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Sunucudan beklenmeyen yanıt');
+          }
+          return response.text(); // HTML döndüğü için text()
+      })
+      .then(html => {
+          // HTML'i sayfaya yerleştir veya yeni sayfaya yönlendir
+          //document.body.innerHTML = html;
+          // veya
+          window.location.href = `/search?city=${encodeURIComponent(city)}&capacity=${guests}`;
+      })
+      .catch(error => {
+          console.error('Hata:', error);
+      });
+      function formatDate(dateString) {
+        if (!dateString) return '';
+        const parts = dateString.split('-');
+        if (parts.length !== 3) return dateString; // Hatalıysa olduğu gibi döner
+        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+      }
+      });
     </script>
   </body>
 </html>

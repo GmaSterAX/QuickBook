@@ -63,7 +63,7 @@ public class RoomController {
 
         Set<Long> addedHotelIds = new HashSet<>();
         List<HotelDto> hotels = new ArrayList<>();
-
+        
         for (RoomDto room : rooms) {
             Long hotelId = room.getH_id();
             if (addedHotelIds.add(hotelId)) { // Set'e eklenirse true döner
@@ -79,12 +79,16 @@ public class RoomController {
     public String getHotelDetails(@PathVariable("id") long id, Model model){
         HotelDto hotel = hotelService.getHotelById(id);
         model.addAttribute("hotel",hotel);
+        
         List<HotelServiceDto> hotelServices = hotelServiceService.getAllByHotelId(id);
         model.addAttribute("hotelServices",hotelServices);
+        
         List<ActivityDto> activities = activityService.getAllByHotelId(id);
         model.addAttribute("activities", activities);
+        
         List<RoomDto> rooms = roomService.getRoomByHotel_Id(id);
         long[] room_ids = new long[3];
+        
         for (RoomDto room : rooms) {
             List<RoomServiceDto> r_Services = roomServiceService.getRoomServiceByRoomId(room.getRoom_id());
             for(RoomServiceDto r_Service : r_Services){
@@ -96,10 +100,13 @@ public class RoomController {
                     room_ids[2] = r_Service.getR_id();
             }
         }
+        
         List<RoomServiceDto> basicRoomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(room_ids[0], "Basic");
         model.addAttribute("basicRoomServices", basicRoomServices);
+        
         List<RoomServiceDto> luxRoomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(room_ids[1], "Lux");
         model.addAttribute("luxRoomServices", luxRoomServices);
+        
         List<RoomServiceDto> deluxRoomServices = roomServiceService.getRoomServiceByRoomIdAndRoomType(room_ids[2], "Delux");
         model.addAttribute("deluxRoomServices", deluxRoomServices);
 
@@ -107,9 +114,16 @@ public class RoomController {
         RoomDto luxRoom = roomService.getRoomById(room_ids[1]);
         RoomDto deluxRoom = roomService.getRoomById(room_ids[2]);
 
-        model.addAttribute("basicPrice", basicRoom);
-        model.addAttribute("luxPrice", luxRoom);
-        model.addAttribute("deluxPrice", deluxRoom);
+        // ✅ Room objesini ve room_id'leri ayrı ayrı gönder
+        model.addAttribute("basicRoom", basicRoom);
+        model.addAttribute("luxRoom", luxRoom);  
+        model.addAttribute("deluxRoom", deluxRoom);
+        
+        // ✅ Room ID'leri ayrı ayrı gönder
+        model.addAttribute("basicRoomId", room_ids[0]);
+        model.addAttribute("luxRoomId", room_ids[1]);
+        model.addAttribute("deluxRoomId", room_ids[2]);
+        
         return "hotel-details";
     }
 
