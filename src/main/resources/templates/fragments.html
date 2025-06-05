@@ -107,12 +107,6 @@
         <ul class="list-group">
           <li class="list-group-item">
             <div class="d-flex align-items-center">
-              <img src="/logos/user.png" alt="bed" width="20" height="20" class="me-2">
-              <button class="btn text-start w-100" onclick="fetchMyAccount()">Account</button>
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="d-flex align-items-center">
               <img src="/logos/double-bed.png" alt="bed" width="20" height="20" class="me-2">
               <button class="btn text-start w-100" onclick="getUserReservations()">Reservations</button>
             </div>
@@ -134,6 +128,14 @@
               <img src="/logos/wallet.png" alt="bed" width="20" height="20" class="me-2">
               <button class="btn text-start w-100" onclick="getUserPayments()">Payments</button>
               </div>
+          </li>
+          <li class="list-group-item">
+            <div class="d-flex align-items-center">
+              <img src="/logos/padlock.png" alt="bed" width="20" height="20" class="me-2">
+              <form action="/change-password" method="get">
+                <button type="submit" class="btn text-start w-100">Change Password</button>
+              </form>
+            </div>
           </li>
           <li class="list-group-item">
             <div class="d-flex align-items-center">

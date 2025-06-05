@@ -35,4 +35,8 @@ public class PageController {
     public String getReservationPage() {
         return "reservation";
     }
+    @GetMapping("/change-password")
+    public String getChangePasswordPage(){
+        return "change-password";
+    }
 }

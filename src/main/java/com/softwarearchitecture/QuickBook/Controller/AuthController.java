@@ -23,8 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
-
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -155,4 +154,24 @@ public class AuthController {
         return "email-verification";
     }
 
+    @PostMapping("/change-the-password")
+    public ResponseEntity<String> changePassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String newPassword = request.get("newPassword");
+
+        if (email == null || newPassword == null) {
+            return ResponseEntity.badRequest().body("Missing Credentials");
+        }
+
+        Optional<User> userOptional = userRepository.findByMail(email);
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.badRequest().body("User not found");
+        }
+
+        User user = userOptional.get();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        return ResponseEntity.ok("Password changed succesfully");
+    }
 }
