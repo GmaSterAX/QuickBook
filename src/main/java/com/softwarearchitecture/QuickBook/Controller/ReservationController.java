@@ -46,7 +46,7 @@ public class ReservationController {
         UserDto user = userService.getUserByMail(userMail);
         List<ReservationDto> reservations = reservationService.getReservationByUserId(user.getId());
         model.addAttribute("reservations", reservations);
-        
+
         List<HotelDto> hotels = new ArrayList<>();
         for (ReservationDto reservation : reservations) {
             hotels.add(hotelService.getHotelById(reservation.getH_id()));
@@ -78,7 +78,7 @@ public class ReservationController {
             System.err.println("Rezervasyon oluşturulurken hata oluştu: " + e.getMessage());
             e.printStackTrace(); // stacktrace detaylı yazmak için
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                .body("Sunucu hatası: " + e.getMessage());
+                    .body("Sunucu hatası: " + e.getMessage());
         }
     }
 }
