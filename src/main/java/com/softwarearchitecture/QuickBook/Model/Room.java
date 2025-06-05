@@ -23,7 +23,6 @@ public class Room {
     private boolean reserved;
     private int capacity;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
@@ -31,11 +30,11 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoomService> roomServiceList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservation;
 
     public Room(long roomId, BigDecimal price, boolean reserved, int capacity) {
-        this.roomId= roomId;
+        this.roomId = roomId;
         this.price = price;
         this.reserved = reserved;
         this.capacity = capacity;

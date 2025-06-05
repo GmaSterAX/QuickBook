@@ -1,13 +1,11 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
 import com.softwarearchitecture.QuickBook.Dto.ActivityDto;
-import com.softwarearchitecture.QuickBook.Dto.CommentDto;
 import com.softwarearchitecture.QuickBook.Dto.HotelDto;
 import com.softwarearchitecture.QuickBook.Dto.HotelServiceDto;
 import com.softwarearchitecture.QuickBook.Dto.RoomDto;
 import com.softwarearchitecture.QuickBook.Dto.RoomServiceDto;
 import com.softwarearchitecture.QuickBook.Service.ActivityService;
-import com.softwarearchitecture.QuickBook.Service.CommentService;
 import com.softwarearchitecture.QuickBook.Service.HotelService;
 import com.softwarearchitecture.QuickBook.Service.HotelServiceService;
 import com.softwarearchitecture.QuickBook.Service.RoomService;
@@ -33,21 +31,18 @@ public class RoomController {
     private HotelServiceService hotelServiceService;
     private ActivityService activityService;
     private RoomServiceService roomServiceService;
-    private CommentService commentService;
 
     @Autowired
     public RoomController(RoomService roomService,
                           HotelService hotelService,
                           HotelServiceService hotelServiceService,
                           ActivityService activityService,
-                          RoomServiceService roomServiceService,
-                          CommentService commentService){
+                          RoomServiceService roomServiceService){
         this.roomService = roomService;
         this.hotelService = hotelService;
         this.hotelServiceService = hotelServiceService;
         this.activityService = activityService;
         this.roomServiceService = roomServiceService;
-        this.commentService = commentService;
     }
 
     @GetMapping("room-get_{capacity}")
@@ -115,16 +110,6 @@ public class RoomController {
         model.addAttribute("basicPrice", basicRoom);
         model.addAttribute("luxPrice", luxRoom);
         model.addAttribute("deluxPrice", deluxRoom);
-
-        try {
-            List<CommentDto> comments = commentService.getCommentByHotelId(id);
-            for (CommentDto comment : comments) {
-                System.out.println(comment.getUser_comment());
-            }
-            model.addAttribute("comments", comments);
-        } catch (Exception e) {
-            e.printStackTrace(); // bu terminalde kesin gösterir
-        }
         return "hotel-details";
     }
 

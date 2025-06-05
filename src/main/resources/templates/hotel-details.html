@@ -10,47 +10,32 @@
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <link th:href="@{/css/navbar.css}" rel="stylesheet">
     <style>
-        html {
+        html { scroll-behavior: smooth; }
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
             scroll-behavior: smooth;
+            padding: 1rem;
+            gap: 1rem;
+        }
+        .scroll-container::-webkit-scrollbar { display: none; }
+        .card { min-width: 300px; flex: 0 0 auto; }
+        .scroll-button {
+            background-color: #f8f9fa;
+            border: none;
+            font-size: 2rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-<<<<<<< HEAD
-<!-- Navbar -->
-<section>
-    <div th:replace="~{fragments :: navbar}"></div>
-</section>
-
-<!-- Otel Bilgileri + Servisler + Aktiviteler + Oda Tipleri -->
-<section class="mt-3 pt-3">
-    <div class="container my-5">
-        <div class="card shadow-lg p-4">
-            <div class="row">
-                <!-- Otel Fotoğrafı -->
-                <div class="col-md-6 mb-3">
-                    <img th:src="@{${hotel.img_url}}" alt="Hotel Photo" class="img-fluid rounded">
-                </div>
-
-                <!-- Otel Bilgileri -->
-                <div class="col-md-6">
-                    <h2 class="mb-3" th:text="${hotel.name}">Hotel Name</h2>
-                    <p class="card-text text-muted mb-1" th:text="${hotel.address}">Hotel Address</p>
-                    <p class="card-text text-muted mb-1" th:text="'★ ' + ${hotel.point}">Hotel Point</p>
-                    <div class="d-flex align-items-center justify-content-end mt-4">
-                        <button
-                                th:data-hotel-id="${hotel.id}"
-                                class="btn btn-outline-dark btn-md"
-                                onclick="addToFavorites(this)">
-                            Add to Favorites
-                        </button>
-=======
     <!-- Navbar -->
     <section>
         <div th:replace="~{fragments :: navbar}"></div>
     </section>
 
-    <!-- Otel Bilgileri + Servisler + Aktiviteler + Oda Tipleri -->
+    <!-- Otel Bilgileri -->
     <section class="mt-3 pt-3">
         <div class="container my-5">
             <div class="card shadow-lg p-4">
@@ -58,34 +43,33 @@
                     <!-- Otel Fotoğrafı -->
                     <div class="col-md-4 h-100">
                         <div class="h-100" style="overflow: hidden;">
-                        <img th:src="${hotel.img_url}"
-                            class="img-fluid w-100 h-100"
-                            style="object-fit: cover; object-position: center;"
-                            alt="Hotel Image">
+                            <img th:src="${hotel.img_url}" class="img-fluid w-100 h-100" style="object-fit: cover;" alt="Hotel Image">
                         </div>
                     </div>
 
                     <!-- Otel Bilgileri -->
                     <div class="col-md-6 position-relative">
                         <h2 class="mb-3" th:text="${hotel.name}">Hotel Name</h2>
-                        <p class="card-text text-muted mb-1" th:text="${hotel.address}">Hotel Address</p>
-                        <p class="card-text text-muted mb-1" th:text="'★ ' + ${hotel.point}">Hotel Point</p>
-                        
+                        <p class="text-muted mb-1" th:text="${hotel.address}">Hotel Address</p>
+                        <p class="text-muted mb-1" th:text="'★ ' + ${hotel.point}">Hotel Point</p>
                         <button 
                             th:data-hotel-id="${hotel.id}" 
-                            class="btn btn-outline-dark btn-md position-absolute"
+                            class="btn btn-outline-dark position-absolute"
                             style="bottom: 0; right: 0;" 
                             onclick="addToFavorites(this)">
                             Add to Favorites
                         </button>
                     </div>
                 </div>
+
+                <!-- Servisler & Aktiviteler -->
                 <div class="row mt-4">
                     <!-- Servisler -->
                     <div class="col-md-6">
                         <h4 class="mb-3">Services</h4>
                         <ul class="list-group">
-                            <li class="list-group-item" th:each="hotelService : ${hotelServices}" th:text="${hotelService.service_name}">Servis Adı</li>
+                            <li class="list-group-item text-muted" th:if="${#lists.isEmpty(hotelServices)}">Bilgi yok</li>
+                            <li class="list-group-item" th:each="s : ${hotelServices}" th:text="${s.service_name}">Servis Adı</li>
                         </ul>
                     </div>
 
@@ -93,233 +77,132 @@
                     <div class="col-md-6">
                         <h4 class="mb-3">Activities</h4>
                         <ul class="list-group">
-                            <li class="list-group-item" th:each="activity : ${activities}">
-                                <span th:text="${activity.name}">Activities</span>
-                            </li>
+                            <li class="list-group-item text-muted" th:if="${#lists.isEmpty(activities)}">Bilgi yok</li>
+                            <li class="list-group-item" th:each="a : ${activities}" th:text="${a.name}">Aktivite</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Oda Tipi Accordion Menüsü -->
+                <!-- Oda Tipleri -->
                 <div class="accordion mt-4" id="roomServicesAccordion">
                     <h4>Rooms</h4>
-                    <small>(Higher level rooms contains lower rooms' services as well)</small>
-                    <!-- Basic -->
+                    <small>(Higher level rooms contain lower rooms' services)</small>
+
+                    <!-- Basic Room -->
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingBasic">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBasic" aria-expanded="false" aria-controls="collapseBasic">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBasic">
                                 Basic Room
                             </button>
                         </h2>
-                        <div id="collapseBasic" class="accordion-collapse collapse" aria-labelledby="headingBasic" data-bs-parent="#roomServicesAccordion">
+                        <div id="collapseBasic" class="accordion-collapse collapse">
                             <div class="accordion-body d-flex justify-content-between align-items-start">
                                 <ul class="list-group w-75">
-                                    <li class="list-group-item" th:each="service : ${basicRoomServices}">
-                                        <span th:text="${service.serviceName}">Servis Adı</span>
-                                    </li>
+                                    <li class="list-group-item text-muted" th:if="${#lists.isEmpty(basicRoomServices)}">Bilgi yok</li>
+                                    <li class="list-group-item" th:each="s : ${basicRoomServices}" th:text="${s.serviceName}">Servis</li>
                                 </ul>
                                 <div class="ms-3 d-flex flex-column">
-                                    <span th:text="'₺' + ${basicPrice.price}" class="mb-1"></span>
+                                    <span th:text="'₺' + ${basicPrice.price}" class="mb-1">₺Fiyat</span>
                                     <button class="btn btn-dark">Book</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Lux -->
+                    <!-- Lux Room -->
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingLux">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLux" aria-expanded="false" aria-controls="collapseLux">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLux">
                                 Lux Room
                             </button>
                         </h2>
-                        <div id="collapseLux" class="accordion-collapse collapse" aria-labelledby="headingLux" data-bs-parent="#roomServicesAccordion">
+                        <div id="collapseLux" class="accordion-collapse collapse">
                             <div class="accordion-body d-flex justify-content-between align-items-start">
                                 <ul class="list-group w-75">
-                                    <li class="list-group-item" th:each="service : ${luxRoomServices}">
-                                        <span th:text="${service.serviceName}">Servis Adı</span>
-                                    </li>
+                                    <li class="list-group-item text-muted" th:if="${#lists.isEmpty(luxRoomServices)}">Bilgi yok</li>
+                                    <li class="list-group-item" th:each="s : ${luxRoomServices}" th:text="${s.serviceName}">Servis</li>
                                 </ul>
                                 <div class="ms-3 d-flex flex-column">
-                                    <span th:text="'₺' + ${luxPrice.price}" class="mb-1"></span>
+                                    <span th:text="'₺' + ${luxPrice.price}" class="mb-1">₺Fiyat</span>
                                     <button class="btn btn-dark">Book</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Delux -->
+                    <!-- Delux Room -->
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingDelux">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDelux" aria-expanded="false" aria-controls="collapseDelux">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDelux">
                                 Delux Room
                             </button>
                         </h2>
-                        <div id="collapseDelux" class="accordion-collapse collapse" aria-labelledby="headingDelux" data-bs-parent="#roomServicesAccordion">
+                        <div id="collapseDelux" class="accordion-collapse collapse">
                             <div class="accordion-body d-flex justify-content-between align-items-start">
                                 <ul class="list-group w-75">
-                                    <li class="list-group-item" th:each="service : ${deluxRoomServices}">
-                                        <span th:text="${service.serviceName}">Servis Adı</span>
-                                    </li>
+                                    <li class="list-group-item text-muted" th:if="${#lists.isEmpty(deluxRoomServices)}">Bilgi yok</li>
+                                    <li class="list-group-item" th:each="s : ${deluxRoomServices}" th:text="${s.serviceName}">Servis</li>
                                 </ul>
                                 <div class="ms-3 d-flex flex-column">
-                                    <span th:text="'₺' + ${deluxPrice.price}" class="mb-1"></span>
+                                    <span th:text="'₺' + ${deluxPrice.price}" class="mb-1">₺Fiyat</span>
                                     <button class="btn btn-dark mb-2">Book</button>
                                 </div>
                             </div>
                         </div>
->>>>>>> e38132fddf4b61527c4e944ec914140b72cc09e9
                     </div>
                 </div>
+
                 <!-- Kullanıcı Yorumları -->
                 <div class="container mt-5">
                     <h4 class="mb-4">User Comments</h4>
-                    <div class="d-flex flex-column gap-3">
-                        <div class="card p-3 shadow-sm" th:each="comment : ${comments}">
-                                <!-- Yorum içeriği -->
-                                <p class="mb-1" th:if="${comment.user_comment != null}" th:text="${comment.user_comment}">Yorum içeriği burada yer alır.</p>
-
-                                <!-- Oluşturulma tarihi -->
-                                <small class="text-muted" th:if="${comment.created_at != null}" th:text="${#dates.format(comment.created_at, 'dd MMMM yyyy HH:mm')}">
-                                    01 Haziran 2025 14:30
-                                </small>
+                    <div th:if="${#lists.isEmpty(comments)}" class="text-muted">Bilgi yok</div>
+                    <div class="d-flex align-items-center mb-3" th:if="${!#lists.isEmpty(comments)}">
+                        <button class="scroll-button me-2" onclick="scrollLeftCard()">←</button>
+                        <div class="scroll-container" id="commentScroll">
+                            <div class="card p-3 shadow-sm" th:each="c : ${comments}">
+                                <strong th:text="${c.user_name != null ? c.user_name : 'Anonim'}">Kullanıcı</strong>
+                                <p th:if="${c.user_comment != null}" th:text="${c.user_comment}">Yorum</p>
+                                <small class="text-muted" th:if="${c.created_at != null}" th:text="${#dates.format(c.created_at, 'dd MMMM yyyy HH:mm')}">01 Haziran 2025</small>
                             </div>
-
+                        </div>
+                        <button class="scroll-button ms-2" onclick="scrollRightCard()">→</button>
                     </div>
                 </div>
+
+                <!-- Yorum Gönder -->
                 <div class="container mt-4">
                     <h5 class="mb-3">Leave a Comment</h5>
-
-                    <!-- Yorum Kutusu -->
                     <textarea class="form-control mb-3" id="userComment" rows="3" placeholder="Write your comment here..."></textarea>
-
-                    <!-- Gönder Butonu -->
                     <button class="btn btn-primary" onclick="submitComment()" th:data-hotel-id="${hotel.id}">Submit</button>
-
-                    <!-- Başarı Mesajı -->
                     <div id="commentSuccess" class="mt-3 text-success" style="display: none;">
                         Your comment has been submitted.
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-
-            <div class="row mt-4">
-                <!-- Servisler -->
-                <div class="col-md-6">
-                    <h4 class="mb-3">Services</h4>
-                    <ul class="list-group">
-                        <li class="list-group-item" th:each="hotelService : ${hotelServices}" th:text="${hotelService.service_name}">Servis Adı</li>
-                    </ul>
-                </div>
-
-                <!-- Aktiviteler -->
-                <div class="col-md-6">
-                    <h4 class="mb-3">Activities</h4>
-                    <ul class="list-group">
-                        <li class="list-group-item" th:each="activity : ${activities}">
-                            <strong th:text="${activity.name}">Activities</strong>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Oda Tipi Accordion Menüsü -->
-            <div class="accordion mt-4" id="roomServicesAccordion">
-
-                <!-- Basic -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingBasic">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBasic" aria-expanded="false" aria-controls="collapseBasic">
-                            Basic Oda Servisleri
-                        </button>
-                    </h2>
-                    <div id="collapseBasic" class="accordion-collapse collapse" aria-labelledby="headingBasic" data-bs-parent="#roomServicesAccordion">
-                        <div class="accordion-body d-flex justify-content-between align-items-start">
-                            <ul class="list-group w-75">
-                                <li class="list-group-item" th:each="service : ${basicRoomServices}">
-                                    <span th:text="${service.serviceName}">Servis Adı</span>
-                                </li>
-                            </ul>
-                            <div class="ms-3">
-                                <button class="btn btn-success">Book</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Lux -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingLux">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLux" aria-expanded="false" aria-controls="collapseLux">
-                            Lux Oda Servisleri
-                        </button>
-                    </h2>
-                    <div id="collapseLux" class="accordion-collapse collapse" aria-labelledby="headingLux" data-bs-parent="#roomServicesAccordion">
-                        <div class="accordion-body d-flex justify-content-between align-items-start">
-                            <ul class="list-group w-75">
-                                <li class="list-group-item" th:each="service : ${luxRoomServices}">
-                                    <span th:text="${service.serviceName}">Servis Adı</span>
-                                </li>
-                            </ul>
-                            <div class="ms-3">
-                                <button class="btn btn-success">Book</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Delux -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingDelux">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDelux" aria-expanded="false" aria-controls="collapseDelux">
-                            Delux Oda Servisleri
-                        </button>
-                    </h2>
-                    <div id="collapseDelux" class="accordion-collapse collapse" aria-labelledby="headingDelux" data-bs-parent="#roomServicesAccordion">
-                        <div class="accordion-body d-flex justify-content-between align-items-start">
-                            <ul class="list-group w-75">
-                                <li class="list-group-item" th:each="service : ${deluxRoomServices}">
-                                    <span th:text="${service.serviceName}">Servis Adı</span>
-                                </li>
-                            </ul>
-                            <div class="ms-3">
-                                <button class="btn btn-dark">Book</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Footer ve Kullanıcı Paneli -->
-<section>
-    <div th:replace="~{fragments :: footer}"></div>
-</section>
-<div th:replace="~{fragments :: userOffcanvas}"></div>
-<!-- Scriptler -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/js/functions.js"></script>
-<script src="/js/navbarScroll.js"></script>
-</body>
-</html>
-=======
         </div>
     </section>
-    <!-- Footer ve Kullanıcı Paneli -->
+
+    <!-- Footer & Panel -->
     <section>
-            <div th:replace="~{fragments :: footer}"></div>
-        </section>
+        <div th:replace="~{fragments :: footer}"></div>
+    </section>
     <div th:replace="~{fragments :: userOffcanvas}"></div>
+
     <!-- Scriptler -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/functions.js"></script>
     <script src="/js/navbarScroll.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const scrollContainer = document.getElementById('commentScroll');
+            window.scrollLeftCard = function () {
+                scrollContainer.scrollBy({ left: -300, behavior: 'smooth' });
+            };
+            window.scrollRightCard = function () {
+                scrollContainer.scrollBy({ left: 300, behavior: 'smooth' });
+            };
+        });
+    </script>
 </body>
 </html>
->>>>>>> e38132fddf4b61527c4e944ec914140b72cc09e9
