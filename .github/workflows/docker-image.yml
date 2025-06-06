@@ -1,18 +1,13 @@
-name: Docker Image CI
+name: Deploy to Render
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-
-  build:
-
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Trigger Render Deploy Hook
+        run: curl -X POST https://api.render.com/deploy/srv-d11bar6mcj7s73a28kn0?key=Qc9Kp-3uyUE
+
