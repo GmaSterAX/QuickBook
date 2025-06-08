@@ -116,13 +116,13 @@ public class AuthController {
 
         notificationService.createNotification(welcomeNotification);
 
-        System.out.println("VERIFICATION LINK: http://localhost:8080/verify-email?token=" + token);
+        System.out.println("VERIFICATION LINK: https://quickbook-1jdh.onrender.com/verify-email?token=" + token);
 
         emailService.sendSimpleEmail(
                 user.getMail(),
                 "Email Verification",
                 "Click on the link to verify your account:\n" +
-                        "http://localhost:8080/verify-email?token=" + token
+                        "https://quickbook-1jdh.onrender.com/verify-email?token=" + token
         );
         return ResponseEntity.ok("Account created successfully! Please verify your email.");
     }
