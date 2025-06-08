@@ -1,11 +1,11 @@
 package com.softwarearchitecture.QuickBook.Model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +18,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private boolean payment_situation;
-
+    private BigDecimal reservation_price;
     @OneToOne
     @JoinColumn(name = "reservation_id", unique = true)
     private Reservation reservation;

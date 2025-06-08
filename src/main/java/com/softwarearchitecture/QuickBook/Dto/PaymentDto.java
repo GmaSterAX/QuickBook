@@ -15,7 +15,5 @@ public class PaymentDto {
     private boolean payment_situation;
     private long reservation_id;
     private BigDecimal reservation_price;
-
-
 }
 

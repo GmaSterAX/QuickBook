@@ -19,6 +19,7 @@ public class PaymentMapper {
         return new Payment(
                 paymentDto.getId(),
                 paymentDto.isPayment_situation(),
+                paymentDto.getReservation_price(),
                 reservation
         );
     }
