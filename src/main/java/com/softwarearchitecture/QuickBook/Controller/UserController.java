@@ -81,9 +81,4 @@ public class UserController {
         model.addAttribute("notifications", notifications);
         return "notifications";
     }
-
-    @GetMapping("/my-payments")
-    public String getUserPayments(){
-        return "my-payments";
-    }
 }

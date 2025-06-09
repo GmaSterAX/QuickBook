@@ -122,7 +122,7 @@ public class AuthController {
                 user.getMail(),
                 "Email Verification",
                 "Click on the link to verify your account:\n" +
-                        "https://quickbook-1jdh.onrender.com/verify-email?token=" + token
+                        "http://localhost:8080//verify-email?token=" + token
         );
         return ResponseEntity.ok("Account created successfully! Please verify your email.");
     }

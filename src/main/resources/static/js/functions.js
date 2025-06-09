@@ -267,3 +267,41 @@ async function bookRoom(button) {
         });
     }
 }
+
+function updatePayment(id, newStatus) {
+    fetch(`/update-payment/${id}?status=${newStatus}`, {
+        method: 'PUT'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Failed to update payment");
+        }
+        return response.json();
+    })
+    .then(data => {
+        Swal.fire({
+            icon: 'success',
+            title: `Payment ${newStatus === 'paid' ? 'completed' : 'cancelled'} successfully`,
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            window.location.reload();
+        });
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Could not update payment status.'
+        });
+    });
+}
+
+function payPayment(id) {
+    updatePayment(id, 'Paid');
+}
+
+function cancelPayment(id) {
+    updatePayment(id, 'Cancelled');
+}

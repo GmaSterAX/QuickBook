@@ -17,7 +17,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private boolean payment_situation;
+    private String payment_situation;
     private BigDecimal reservation_price;
     @OneToOne
     @JoinColumn(name = "reservation_id", unique = true)

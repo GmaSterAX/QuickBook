@@ -11,9 +11,7 @@ import com.softwarearchitecture.QuickBook.Service.NotificationService;
 import com.softwarearchitecture.QuickBook.Service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -75,34 +73,14 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<PaymentDto> getAllPayments() {
-        List<Payment> payments = paymentRepository.findAll();
-        return payments.stream()
-                .map(PaymentMapper::mapToPaymentDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public PaymentDto updatePayment(Long id, PaymentDto paymentDto) {
+    @Transactional
+    public PaymentDto updatePayment(Long id, String payment_situation) {
         Payment existingPayment = paymentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Payment not found with id: " + id));
 
-        Reservation reservation = reservationRepository.findById(paymentDto.getReservation_id());
-        if (reservation == null) {
-            throw new RuntimeException("Reservation not found with id: " + paymentDto.getReservation_id());
-        }
-
-        existingPayment.setPayment_situation(paymentDto.isPayment_situation());
-        existingPayment.setReservation(reservation);
-
+        existingPayment.setPayment_situation(payment_situation);
+        
         Payment updatedPayment = paymentRepository.save(existingPayment);
         return PaymentMapper.mapToPaymentDto(updatedPayment);
-    }
-
-    @Override
-    public void deletePayment(Long id) {
-        Payment payment = paymentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Payment not found with id: " + id));
-        paymentRepository.delete(payment);
     }
 }

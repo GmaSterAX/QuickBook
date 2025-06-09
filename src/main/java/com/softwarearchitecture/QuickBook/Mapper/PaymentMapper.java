@@ -9,7 +9,7 @@ public class PaymentMapper {
     public static PaymentDto mapToPaymentDto(Payment payment) {
        return new PaymentDto(
         payment.getId(),
-        payment.isPayment_situation(),
+        payment.getPayment_situation(),
         payment.getReservation().getId(),
         payment.getReservation().getPrice()
        );
@@ -18,7 +18,7 @@ public class PaymentMapper {
     public static Payment mapToPayment(PaymentDto paymentDto, Reservation reservation ){
         return new Payment(
                 paymentDto.getId(),
-                paymentDto.isPayment_situation(),
+                paymentDto.getPayment_situation(),
                 paymentDto.getReservation_price(),
                 reservation
         );

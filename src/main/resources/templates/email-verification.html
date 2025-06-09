@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Verification</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="icon" href="/logos/favicon.ico" type="image/x-icon">
+    <link th:href="@{/css/navbar.css}" rel="stylesheet">
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .content-wrapper {
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+            padding-bottom: 60px;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <section>
+        <div th:replace="~{fragments :: navbar}"></div>
+    </section>
+
+    <!-- ORTALANMIŞ MESAJ -->
+    <section class="content-wrapper">
+        <div class="message-box">
+            <h1 th:class="${success} ? 'success' : 'error'">
+                <span th:text="${success} ? '✅ ' + ${message} : '❌ ' + ${message}">Mesaj buraya gelecek</span>
+            </h1>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <section>
+        <div th:replace="~{fragments :: footer}"></div>
+    </section>
+
+    <!-- SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/navbarScroll.js"></script>
+    <script src="/js/functions.js"></script>
+</body>
+</html>

@@ -86,7 +86,7 @@ public class ReservationController {
             PaymentDto paymentDto = new PaymentDto();
             paymentDto.setReservation_id(savedReservation.getId());
             paymentDto.setReservation_price(reservationDto.getPrice());
-            paymentDto.setPayment_situation(false); // Ödeme başlangıçta yapılmamış kabul ediliyor
+            paymentDto.setPayment_situation("Not paid"); // Ödeme başlangıçta yapılmamış kabul ediliyor
 
             // 3. Ödeme veritabanına eklenir ve bildirim gönderilir
             paymentService.createPayment(paymentDto);

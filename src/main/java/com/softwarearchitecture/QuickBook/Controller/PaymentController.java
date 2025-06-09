@@ -1,22 +1,37 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
 import com.softwarearchitecture.QuickBook.Dto.PaymentDto;
+import com.softwarearchitecture.QuickBook.Dto.ReservationDto;
+import com.softwarearchitecture.QuickBook.Dto.UserDto;
 import com.softwarearchitecture.QuickBook.Service.PaymentService;
+import com.softwarearchitecture.QuickBook.Service.ReservationService;
+import com.softwarearchitecture.QuickBook.Service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;    
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@RestController
-@RequestMapping("/payments")
+@Controller
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final UserService userService;
+    private final ReservationService reservationService;
 
     @Autowired
-    public PaymentController(PaymentService paymentService){
+    public PaymentController(PaymentService paymentService, 
+                             UserService userService,
+                             ReservationService reservationService){
         this.paymentService = paymentService;
+        this.userService = userService;
+        this.reservationService = reservationService;
     }
 
     @PostMapping("/add")
@@ -25,33 +40,26 @@ public class PaymentController {
         return ResponseEntity.ok(created);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PaymentDto> getPaymentById(@PathVariable Long id){
-        PaymentDto paymentDto = paymentService.getPaymentById(id);
-        return ResponseEntity.ok(paymentDto);
-    }
-
-    @GetMapping("/reservation/{reservationId}")
-    public ResponseEntity<PaymentDto> getPaymentByReservationId(@PathVariable Long reservationId){
-        PaymentDto paymentDto = paymentService.getPaymentByReservationId(reservationId);
-        return ResponseEntity.ok(paymentDto);
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<PaymentDto>> getAllPayments(){
-        List<PaymentDto> payments = paymentService.getAllPayments();
-        return ResponseEntity.ok(payments);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<PaymentDto> updatePayment(@PathVariable Long id, @RequestBody PaymentDto paymentDto){
-        PaymentDto updated = paymentService.updatePayment(id, paymentDto);
+    @PutMapping("/update-payment/{id}")
+    public ResponseEntity<PaymentDto> updatePayment(
+        @PathVariable Long id, 
+        @RequestParam String status) {
+        
+        PaymentDto updated = paymentService.updatePayment(id, status);
         return ResponseEntity.ok(updated);
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePayment(@PathVariable Long id){
-        paymentService.deletePayment(id);
-        return ResponseEntity.ok("Payment deleted successfully.");
+    
+    @GetMapping("/my-payments")
+    public String getUserPayments(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userMail = authentication.getName();
+        UserDto user = userService.getUserByMail(userMail);
+        List<ReservationDto> reservationDtos = reservationService.getReservationByUserId(user.getId());
+        List<PaymentDto> payments = new ArrayList<>();
+        for (ReservationDto reservation : reservationDtos) {
+            payments.add(paymentService.getPaymentByReservationId(reservation.getId()));
+        }
+        model.addAttribute("payments", payments);
+        return "my-payments";
     }
 }
