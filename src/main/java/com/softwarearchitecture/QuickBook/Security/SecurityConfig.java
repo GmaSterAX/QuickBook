@@ -22,7 +22,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF'yi modern şekilde devre dışı bırak
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/favicon.ico","/","/beans", "/verify-email", "index", "about", "/login", "/register", "/images/**", "/logos/**","/css/**", "/js/**").permitAll()
+                        .requestMatchers("/**").permitAll()
                         //"/favicon.ico","/","/beans", "/verify-email", "index", "about", "/login", "/register", "/images/**", "/logos/**","/css/**", "/js/**"
                         .anyRequest().authenticated()
                 )

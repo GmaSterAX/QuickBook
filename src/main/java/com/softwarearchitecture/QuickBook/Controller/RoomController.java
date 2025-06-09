@@ -45,6 +45,12 @@ public class RoomController {
         this.roomServiceService = roomServiceService;
     }
 
+    @GetMapping("room-get_{capacity}")
+    public ResponseEntity<List<RoomDto>> getRoomByCapacity(@PathVariable("capacity") int capacity){
+        List<RoomDto> rooms = roomService.getRoomByCapacity(capacity);
+        return ResponseEntity.ok(rooms);
+    }
+
     @GetMapping("search/{city}/{hotel_id}/rooms-{capacity}")
     public ResponseEntity<List<RoomDto>> getRoomsByCityAndHotel_IdAndCapacity(@PathVariable("city") String city, @PathVariable("hotel_id") long hotel_id, @PathVariable("capacity") int capacity){
         List<RoomDto> rooms = roomService.getRoomsByCityHotelAndCapacity(city, hotel_id, capacity);
