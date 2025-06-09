@@ -24,10 +24,6 @@ public class RoomService {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reservation_id")
-    private Reservation reservation;
-
     public RoomService(long id, String serviceName, String roomType) {
         this.id = id;
         this.service_name = serviceName;

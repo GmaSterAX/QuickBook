@@ -5,8 +5,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Builder
@@ -19,8 +17,8 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private LocalDate start_date; // Rezervasyon başlangıç tarihi
-    private LocalDate end_date;   // Rezervasyon bitiş tarihi
+    private LocalDate start_date; 
+    private LocalDate end_date;
     private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,9 +35,6 @@ public class Reservation {
 
     @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
     private Payment payment;
-
-    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RoomService> roomServices = new ArrayList<>();
 
     public Reservation(long id, LocalDate start_date, LocalDate end_date, BigDecimal price) {
         this.id = id;
