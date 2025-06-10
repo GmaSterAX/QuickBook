@@ -13,7 +13,7 @@ public class PageController {
 
    @GetMapping("/index")
     public String indexPage() {
-        return "redirect:/"; 
+        return "index"; 
     }
     
     @GetMapping("/about")
