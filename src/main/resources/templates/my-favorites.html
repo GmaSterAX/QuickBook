@@ -18,52 +18,54 @@
     <section>
         <div th:replace="~{fragments :: navbar}"></div>
     </section>
-    <section class="container my-5 pt-5">
+    <section class="container my-5 pt-5" style="min-height: 50vh;">
+        <div th:if="${#lists.isEmpty(hotels)}" class="text-center text-muted fs-4">
+            You have no favorite hotels.
+        </div>
         <div th:each="hotel : ${hotels}" class="card mb-4 shadow-sm" style="height: 250px; overflow: hidden;">
             <div class="row g-0 h-100">
-            <!-- Sol taraf: Otel resmi -->
-            <div class="col-md-4 h-100">
-                <div class="h-100" style="overflow: hidden;">
-                <img th:src="${hotel.img_url}"
-                    class="img-fluid w-100 h-100"
-                    style="object-fit: cover; object-position: center;"
-                    alt="Hotel Image">
-                </div>
-            </div>
-            
-            <!-- Sağ taraf: Otel bilgileri -->
-            <div class="col-md-8 d-flex">
-                <div class="card-body d-flex flex-column justify-content-between w-100">
-                
-                <!-- Üst Bilgiler -->
-                <div>
-                    <h5 class="card-title" th:text="${hotel.name}">Hotel Name</h5>
-                    <p class="card-text text-muted mb-1" th:text="${hotel.address}">Hotel Address</p>
-                    <p class="card-text">
-                    <small class="text-warning">★</small>
-                    <span th:text="${hotel.point}">4.5</span>
-                    </p>
-                </div>
-                
-                <!-- Alt Bilgiler -->
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div class="d-flex justify-content-end w-100">
-                        <button 
-                        class="btn btn-outline-dark btn-md" 
-                        th:data-hotel-id="${hotel.id}" 
-                        onclick="getHotelDetails(this)">
-                        Book
-                    </button>
-                    <button 
-                        class="btn btn-outline-danger btn-md ms-2" 
-                        th:data-hotel-id="${hotel.id}" 
-                        onclick="deleteFromFavorites(this)">
-                        Remove
-                    </button>
+                <!-- Sol taraf: Otel resmi -->
+                <div class="col-md-4 h-100">
+                    <div class="h-100" style="overflow: hidden;">
+                        <img th:src="${hotel.img_url}"
+                            class="img-fluid w-100 h-100"
+                            style="object-fit: cover; object-position: center;"
+                            alt="Hotel Image">
                     </div>
                 </div>
+
+                <!-- Sağ taraf: Otel bilgileri -->
+                <div class="col-md-8 d-flex">
+                    <div class="card-body d-flex flex-column justify-content-between w-100">
+                        <!-- Üst Bilgiler -->
+                        <div>
+                            <h5 class="card-title" th:text="${hotel.name}">Hotel Name</h5>
+                            <p class="card-text text-muted mb-1" th:text="${hotel.address}">Hotel Address</p>
+                            <p class="card-text">
+                                <small class="text-warning">★</small>
+                                <span th:text="${hotel.point}">4.5</span>
+                            </p>
+                        </div>
+
+                        <!-- Alt Bilgiler -->
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="d-flex justify-content-end w-100">
+                                <button 
+                                    class="btn btn-outline-dark btn-md" 
+                                    th:data-hotel-id="${hotel.id}" 
+                                    onclick="getHotelDetails(this)">
+                                    Book
+                                </button>
+                                <button 
+                                    class="btn btn-outline-danger btn-md ms-2" 
+                                    th:data-hotel-id="${hotel.id}" 
+                                    onclick="deleteFromFavorites(this)">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </section>

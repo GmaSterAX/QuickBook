@@ -1,11 +1,13 @@
 package com.softwarearchitecture.QuickBook.Controller;
 
 import com.softwarearchitecture.QuickBook.Dto.ActivityDto;
+import com.softwarearchitecture.QuickBook.Dto.CommentDto;
 import com.softwarearchitecture.QuickBook.Dto.HotelDto;
 import com.softwarearchitecture.QuickBook.Dto.HotelServiceDto;
 import com.softwarearchitecture.QuickBook.Dto.RoomDto;
 import com.softwarearchitecture.QuickBook.Dto.RoomServiceDto;
 import com.softwarearchitecture.QuickBook.Service.ActivityService;
+import com.softwarearchitecture.QuickBook.Service.CommentService;
 import com.softwarearchitecture.QuickBook.Service.HotelService;
 import com.softwarearchitecture.QuickBook.Service.HotelServiceService;
 import com.softwarearchitecture.QuickBook.Service.RoomService;
@@ -31,18 +33,21 @@ public class RoomController {
     private HotelServiceService hotelServiceService;
     private ActivityService activityService;
     private RoomServiceService roomServiceService;
+    private CommentService commentService;
 
     @Autowired
     public RoomController(RoomService roomService,
                           HotelService hotelService,
                           HotelServiceService hotelServiceService,
                           ActivityService activityService,
-                          RoomServiceService roomServiceService){
+                          RoomServiceService roomServiceService,
+                          CommentService commentService){
         this.roomService = roomService;
         this.hotelService = hotelService;
         this.hotelServiceService = hotelServiceService;
         this.activityService = activityService;
         this.roomServiceService = roomServiceService;
+        this.commentService = commentService;
     }
 
     @GetMapping("room-get_{capacity}")
@@ -123,7 +128,8 @@ public class RoomController {
         model.addAttribute("basicRoomId", room_ids[0]);
         model.addAttribute("luxRoomId", room_ids[1]);
         model.addAttribute("deluxRoomId", room_ids[2]);
-        
+        List<CommentDto> comments = commentService.getCommentByHotelId(id);
+        model.addAttribute("comments", comments);
         return "hotel-details";
     }
 
