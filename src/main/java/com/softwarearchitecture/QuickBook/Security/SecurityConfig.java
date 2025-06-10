@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.header.writers.StaticHeadersWriter; // Bu import'u ekle
 
 @Configuration
 @EnableWebSecurity
@@ -21,35 +20,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // CSRF korumasını devre dışı bırakır. Dikkatli kullanın!
+                .csrf(csrf -> csrf.disable()) // CSRF'yi modern şekilde devre dışı bırak
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**").permitAll() // Tüm isteklere şimdilik izin verir. Kendi yollarınızı buraya ekleyin.
-                        .anyRequest().authenticated() // Diğer tüm istekler kimlik doğrulaması gerektirir
+                        .requestMatchers("/**").permitAll()
+                        //"/favicon.ico","/","/beans", "/verify-email", "index", "about", "/login", "/register", "/images/**", "/logos/**","/css/**", "/js/**"
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Oturum yönetimi
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
-                .formLogin(form -> form.disable()) // Varsayılan form tabanlı girişi devre dışı bırakır
-                .headers(headers -> headers // GÜVENLİK BAŞLIKLARI BURADA YAPILANDIRILIR
-                        .frameOptions(frameOptions -> frameOptions.deny()) // X-Frame-Options: DENY - Tıklama korsanlığını önler
-                        .contentTypeOptions(contentTypeOptions -> contentTypeOptions.disable()) // X-Content-Type-Options: nosniff - MIME türü koklamayı önler
-                        .addHeaderWriter(new StaticHeadersWriter("Referrer-Policy", "strict-origin-when-cross-origin")) // Referrer-Policy başlığını ekler
-                        .xssProtection(xss -> xss.headerValue("1; mode=block")) // X-XSS-Protection - XSS saldırılarına karşı koruma sağlar
-                        .httpStrictTransportSecurity(hsts -> hsts.includeSubDomains(true).maxAgeInSeconds(31536000)) // HSTS - Tarayıcıların sitenize sadece HTTPS ile erişmesini zorlar
-                );
+                .formLogin(form -> form.disable()); // form login devre dışı
 
         return http.build();
     }
 
     @Bean
     public UserDetailsService userDetailsService(){
-           return new CustomUserDetailsService();
-        throw new UnsupportedOperationException("CustomUserDetailsService bean'i yapılandırılmalıdır.");
+        return new CustomUserDetailsService();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder(); // Şifreleri güvenli bir şekilde hashlemek için BCrypt kullanır
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -58,5 +50,6 @@ public class SecurityConfig {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
-        return new ProviderManager(daoAuthenticationProvider); // Kimlik doğrulama yöneticisi
+        return new ProviderManager(daoAuthenticationProvider);
     }
+}
