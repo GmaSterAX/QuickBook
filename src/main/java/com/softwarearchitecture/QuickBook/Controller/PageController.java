@@ -11,11 +11,11 @@ public class PageController {
         return "index";
     }
 
-    @GetMapping("/index")
+   @GetMapping("/index")
     public String indexPage() {
-    return "redirect:/"; 
+        return "redirect:/"; 
     }
-
+    
     @GetMapping("/about")
     public String getAboutPage(){
         return "about";
