@@ -12,9 +12,8 @@ public class PageController {
     }
 
     @GetMapping("/index")
-    public String getIndexPage(){
-        return "index";
-    }
+    public String indexPage() {
+    return "redirect:/"; 
 
     @GetMapping("/about")
     public String getAboutPage(){
