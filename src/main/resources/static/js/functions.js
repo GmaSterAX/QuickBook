@@ -1,6 +1,6 @@
 function goToReservation() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
-  console.log("Login status:", isLoggedIn);
+  console.log("Login durumu:", isLoggedIn);
 
   if (isLoggedIn !== "true") {
     Swal.fire({
@@ -42,7 +42,7 @@ function getUserNotifications() {
     window.location.href = "/notifications";
   })
   .catch(error => {
-    console.error("Error occurred:", error);
+    console.error("Hata oluştu:", error);
   });
 }
 
@@ -55,7 +55,7 @@ function getUserReservations() {
     window.location.href = "/my-reservations";
   })
   .catch(error => {
-    console.error("Error occurred:", error);
+    console.error("Hata oluştu:", error);
   });
 }
 
@@ -68,7 +68,7 @@ function getUserFavorites() {
     window.location.href = "/my-favorites";
   })
   .catch(error => {
-    console.error("Error occurred:", error);
+    console.error("Hata oluştu:", error);
   });
 }
 
@@ -81,7 +81,7 @@ function getUserPayments() {
     window.location.href = "/my-payments";
   })
   .catch(error => {
-    console.error("Error occurred:", error);
+    console.error("Hata oluştu:", error);
   });
 }
 
@@ -97,8 +97,8 @@ function getHotelDetails(button) {
       window.location.href = `/hotel/${hotelId}`;
     })
     .catch(error => {
-      console.error("Error:", error);
-      alert("Failed to open hotel details.");
+      console.error("Hata:", error);
+      alert("Otel detayına gidilemedi.");
     });
 }
 
@@ -106,12 +106,12 @@ function addToFavorites(button) {
     const hotelId = button.getAttribute('data-hotel-id');
     console.log('Hotel ID:', hotelId);
     
-    fetch('/favorites/add/' + hotelId, { method: 'POST'})
+    fetch(`/favorites/add/${hotelId}`, { method: 'POST' })
     .then(response => {
         console.log('Response status:', response.status);
         if (!response.ok) {
             return response.text().then(text => {
-                throw new Error(text || "Could not add to favorites.");
+                throw new Error(text || "Favorilere eklenemedi.");
             });
         }
         return response.text();
@@ -119,10 +119,10 @@ function addToFavorites(button) {
     .then(data => {
         console.log('Success:', data);
         Swal.fire({
-            title: 'Success!',
-            text: data || "Hotel has been added to your favorites.",
+            title: 'Başarılı!',
+            text: data || "Otel favorilere eklendi.",
             icon: 'success',
-            confirmButtonText: 'OK',
+            confirmButtonText: 'Tamam',
             confirmButtonColor: '#212529',
             background: '#f0f0f0'
         });
@@ -130,10 +130,10 @@ function addToFavorites(button) {
     .catch(error => {
         console.error('Error:', error);
         Swal.fire({
-            title: 'Error!',
+            title: 'Hata!',
             text: error.message,
             icon: 'error',
-            confirmButtonText: 'OK',
+            confirmButtonText: 'Tamam',
             confirmButtonColor: '#212529',
             background: '#fff0f0'
         });
@@ -157,10 +157,11 @@ function deleteFromFavorites(button) {
             icon: 'success',
             title: 'Removed',
             text: 'Hotel is removed from your favorites.',
-            confirmButtonText: 'OK',
+            confirmButtonText: 'Okey',
             confirmButtonColor: '#212529',
             background: '#fff0f0'
         }).then(() => {
+            // Kullanıcı onayladıktan sonra sayfayı yenile
             location.reload();
         });
     })
@@ -169,11 +170,10 @@ function deleteFromFavorites(button) {
             icon: 'error',
             title: 'Error!',
             text: error.message,
-            confirmButtonText: 'OK'
+            confirmButtonText: 'Okey'
         });
     });
 }
-
 function submitComment() {
     const commentText = document.getElementById("userComment").value.trim();
     const hotelId = document.querySelector("button[onclick='submitComment()']").getAttribute("data-hotel-id");
@@ -201,8 +201,11 @@ function submitComment() {
         return response.json();
     })
     .then(data => {
+        // Başarı mesajı gösterilebilir (istersen)
         document.getElementById("commentSuccess").style.display = "block";
         document.getElementById("userComment").value = "";
+
+        // Sayfayı yenile
         window.location.reload();
     })
     .catch(error => {
@@ -224,12 +227,14 @@ async function bookRoom(button) {
         price: price,
         start_date: startDate,
         end_date: endDate
+        // u_id gönderilmiyor
     };
     console.log("hotelID:", hotelId);
-    console.log("Room ID:", roomId);
+    console.log("Room ID:", roomId); // bu sana ne döndürüyor?
     console.log("price:", price);
     console.log("startDate:", startDate);
     console.log("endDate:", endDate);
+
 
     try {
         const response = await fetch("/reservation/create", {
@@ -243,22 +248,22 @@ async function bookRoom(button) {
         if (response.ok) {
             Swal.fire({
                 icon: 'success',
-                title: 'Success!',
-                text: 'Reservation created successfully.'
+                title: 'Başarılı!',
+                text: 'Rezervasyon başarıyla oluşturuldu.'
             });
         } else {
             Swal.fire({
                 icon: 'error',
-                title: 'Error!',
-                text: 'Reservation could not be created.'
+                title: 'Hata!',
+                text: 'Rezervasyon oluşturulamadı.'
             });
         }
     } catch (err) {
         console.error(err);
         Swal.fire({
             icon: 'error',
-            title: 'Server Error!',
-            text: 'Something went wrong.'
+            title: 'Sunucu hatası!',
+            text: 'Bir şeyler ters gitti.'
         });
     }
 }
@@ -299,4 +304,4 @@ function payPayment(id) {
 
 function cancelPayment(id) {
     updatePayment(id, 'Cancelled');
-}
+}  

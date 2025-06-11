@@ -50,7 +50,7 @@
                     <h2 th:text="${hotel.name}" class="mb-3">Hotel Name</h2>
                     <p class="text-muted mb-1" th:text="${hotel.address}">Hotel Address</p>
                     <p class="text-muted mb-1" th:text="'★ ' + ${hotel.point}">Hotel Point</p>
-                    <button th:data-hotel-id="${hotel.id}" class="btn btn-outline-dark mt-3">Add to Favorites</button>
+                    <button th:data-hotel-id="${hotel.id}" class="btn btn-outline-dark mt-3" onclick="addToFavorites(this)">Add to Favorites</button>
                 </div>
             </div>
 
