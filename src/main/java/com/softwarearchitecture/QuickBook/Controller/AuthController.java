@@ -110,7 +110,7 @@ public class AuthController {
         userRepository.save(user);
 
         NotificationDto welcomeNotification = new NotificationDto();
-        welcomeNotification.setMessage("Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat beatae obcaecati fugit eveniet nam sed ab quisquam cupiditate facere. Aut, libero. Inventore accusamus excepturi quia totam ab aut quasi odio.");
+        welcomeNotification.setMessage("We're excited to have you on board! With QuickBook, managing your reservations has never been easier. Start exploring and take control of your bookings in just a few clicks.");
         welcomeNotification.setMessageTitle("Welcome to QuickBook!");
         welcomeNotification.setUser_id(user.getId());
 
