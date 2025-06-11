@@ -1,6 +1,6 @@
 function goToReservation() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
-  console.log("Login durumu:", isLoggedIn);
+  console.log("Login status:", isLoggedIn);
 
   if (isLoggedIn !== "true") {
     Swal.fire({
@@ -42,7 +42,7 @@ function getUserNotifications() {
     window.location.href = "/notifications";
   })
   .catch(error => {
-    console.error("Hata oluştu:", error);
+    console.error("error:", error);
   });
 }
 
@@ -55,7 +55,7 @@ function getUserReservations() {
     window.location.href = "/my-reservations";
   })
   .catch(error => {
-    console.error("Hata oluştu:", error);
+    console.error("error:", error);
   });
 }
 
@@ -68,7 +68,7 @@ function getUserFavorites() {
     window.location.href = "/my-favorites";
   })
   .catch(error => {
-    console.error("Hata oluştu:", error);
+    console.error("error:", error);
   });
 }
 
@@ -81,7 +81,7 @@ function getUserPayments() {
     window.location.href = "/my-payments";
   })
   .catch(error => {
-    console.error("Hata oluştu:", error);
+    console.error("error:", error);
   });
 }
 
@@ -98,7 +98,7 @@ function getHotelDetails(button) {
     })
     .catch(error => {
       console.error("Hata:", error);
-      alert("Otel detayına gidilemedi.");
+      alert("Couldnt go to hotel details.");
     });
 }
 
@@ -111,7 +111,7 @@ function addToFavorites(button) {
         console.log('Response status:', response.status);
         if (!response.ok) {
             return response.text().then(text => {
-                throw new Error(text || "Favorilere eklenemedi.");
+                throw new Error(text || "Couldnt add to favorites.");
             });
         }
         return response.text();
@@ -119,8 +119,8 @@ function addToFavorites(button) {
     .then(data => {
         console.log('Success:', data);
         Swal.fire({
-            title: 'Başarılı!',
-            text: data || "Otel favorilere eklendi.",
+            title: 'Success!',
+            text: data || "Hotel added to Favorites.",
             icon: 'success',
             confirmButtonText: 'Tamam',
             confirmButtonColor: '#212529',
@@ -130,10 +130,10 @@ function addToFavorites(button) {
     .catch(error => {
         console.error('Error:', error);
         Swal.fire({
-            title: 'Hata!',
+            title: 'Error!',
             text: error.message,
             icon: 'error',
-            confirmButtonText: 'Tamam',
+            confirmButtonText: 'Okey',
             confirmButtonColor: '#212529',
             background: '#fff0f0'
         });
@@ -249,21 +249,21 @@ async function bookRoom(button) {
             Swal.fire({
                 icon: 'success',
                 title: 'Başarılı!',
-                text: 'Rezervasyon başarıyla oluşturuldu.'
+                text: 'Reservation made successfully.'
             });
         } else {
             Swal.fire({
                 icon: 'error',
-                title: 'Hata!',
-                text: 'Rezervasyon oluşturulamadı.'
+                title: 'Error!',
+                text: 'Reservation couldnt made.'
             });
         }
     } catch (err) {
         console.error(err);
         Swal.fire({
             icon: 'error',
-            title: 'Sunucu hatası!',
-            text: 'Bir şeyler ters gitti.'
+            title: 'Server error!',
+            text: 'Something went wrong.'
         });
     }
 }
