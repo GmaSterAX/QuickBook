@@ -111,15 +111,7 @@ public class AuthController {
 
         NotificationDto welcomeNotification = new NotificationDto();
 
-        welcomeNotification.setMessage("Hello and welcome to QuickBook!\n" + //
-                        "\n" + //
-                        "We’re excited to have you join our community. Now, booking your perfect stay is easier than ever. Explore, discover, and enjoy seamless hotel reservations tailored just for you.\n" + //
-                        "\n" + //
-                        "If you ever need help, our team is here to support you every step of the way. Thanks for choosing QuickBook — we’re happy to be part of your journey!\n" + //
-                        "\n" + //
-                        "Happy travels!\n" + //
-                        "\n" + //
-                        "— The QuickBook Team");
+        welcomeNotification.setMessage("Welcome to QuickBook! We're excited to have you. Booking your stay is now easier than ever. Explore, book, and enjoy. Need help? We're here for you. Thanks for choosing QuickBook. Happy travels! — The QuickBook Team");
         welcomeNotification.setMessageTitle("Welcome to QuickBook!");
         welcomeNotification.setUser_id(user.getId());
 
