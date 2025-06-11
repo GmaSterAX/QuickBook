@@ -50,7 +50,7 @@ public class FavouriteController {
 
             FavouriteDto added = favouriteService.addToFavourites(favouriteHotel);
 
-            return ResponseEntity.ok("Otel favorilere eklendi");
+            return ResponseEntity.ok("Hotel added to favorites");
 
         } catch (Exception e) {
             e.printStackTrace();
